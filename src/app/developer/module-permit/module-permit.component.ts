@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { ColDef, ICellRendererParams } from 'ag-grid-community';
 import { DeveloperService, PermitRow, UserRow } from '../../core/services/developer.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { gridTheme } from '../grid-shared';
+import { PermitCheckboxComponent } from '../permit-checkbox.component';
 
 @Component({
   selector: 'app-module-permit',
@@ -17,6 +20,30 @@ export class ModulePermitComponent implements OnInit {
   selectedUserId = 0;
   loading = false;
   saving = false;
+
+  // AG Grid — same theme as the master grids
+  readonly theme = gridTheme;
+  readonly context = { componentParent: this };
+  readonly defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, flex: 1 };
+  readonly columnDefs: ColDef[] = [
+    { headerName: '#', field: 'ModuleID', maxWidth: 90, flex: 0 },
+    {
+      headerName: 'Code',
+      field: 'ModuleCode',
+      maxWidth: 160,
+      cellRenderer: (p: ICellRendererParams) => `<span class="badge bg-light text-dark">${p.value ?? ''}</span>`,
+    },
+    { headerName: 'Module', field: 'ModuleName' },
+    {
+      headerName: 'Visible',
+      field: 'ISVisible',
+      maxWidth: 140,
+      flex: 0,
+      sortable: false,
+      filter: false,
+      cellRenderer: PermitCheckboxComponent,
+    },
+  ];
 
   ngOnInit(): void {
     this.dev.listUsers().subscribe((u) => (this.users = u));

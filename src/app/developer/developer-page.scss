@@ -15,11 +15,14 @@
 
 .dev-head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1px;
+  margin-bottom: 0;
+  padding: 0;
+  border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.25);
+  background: rgba(var(--app-primary-rgb, 22, 119, 255), 0.1);
+  border-radius: 10px;
 
   h1 {
     font-size: 22px;
@@ -37,6 +40,26 @@
   .btn-primary {
     border-radius: 8px;
     font-weight: 600;
+  }
+
+  /* New header layout: centered name on the left area, actions on the right */
+  .form-name {
+    flex: 1;
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: #344054;
+    }
+  }
+
+  .form-head {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
   }
 }
 
@@ -88,9 +111,16 @@
    collapses below a usable floor (e.g. when the add/edit form is open). */
 .dev-grid {
   display: block;
-  flex: 1 1 auto;
-  min-height: 300px;
+  /* Definite height so AG Grid always renders its rows (the pure-flex
+     chain measured ~0 at render time and drew no body). Fills most of
+     the viewport below the navbar/tab-bar/header; floors on small screens. */
+  height: calc(100vh - 210px);
+  min-height: 320px;
   border: 1px solid #e6ebf1;
+  /* Module Permit has a user-filter card above the grid → more offset */
+  &.permit-grid {
+    height: calc(100vh - 300px);
+  }
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
@@ -101,4 +131,38 @@
   font-size: 18px;
   line-height: 1;
   vertical-align: middle;
+}
+
+/* Module Permit table — styled like the AG grids, fills the remaining
+   height with an internal scroll and a sticky header. */
+.grid-card {
+  overflow: hidden;
+
+  .table-responsive {
+    max-height: calc(100vh - 330px);
+    overflow-y: auto;
+  }
+
+  .table {
+    margin-bottom: 0;
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f0f3f8;
+      color: #344054;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e6ebf1;
+    }
+
+    tbody td {
+      padding: 8px 12px;
+      font-size: 14px;
+      vertical-align: middle;
+      border-bottom: 1px solid #f0f3f8;
+    }
+  }
 }

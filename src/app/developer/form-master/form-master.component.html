@@ -1,10 +1,11 @@
 <div class="dev-page">
   <div class="dev-head">
-    <div>
-      <h1>Form Master</h1>
-      <p>Manage forms (STT_FormMaster)</p>
+    <div class="form-name">
+      <p>Form Master</p>
     </div>
-    <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Form</button>
+    <div class="form-head">
+       <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Form</button>
+    </div>
   </div>
 
   @if (showForm) {

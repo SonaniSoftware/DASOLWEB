@@ -96,11 +96,15 @@ html[data-bs-theme='dark'] {
   .dropdown-divider { background: #2a2f3a; }
 
   /* Content: headings, cards, forms */
+  .dev-head { background: #1f2430; border-color: #2a2f3a; }
   .dev-head h1 { color: #e6e9ee; }
-  .dev-head p { color: #8a93a3; }
+  .dev-head p,
+  .dev-head .form-name p { color: #e6e9ee; }
   .card { background: #161a20; border-color: #2a2f3a; }
   .card .card-body > h6 { color: #e6e9ee; border-bottom-color: #2a2f3a; }
   .dev-grid { border-color: #2a2f3a; }
+  .grid-card .table thead th { background: #1f2430; color: #e6e9ee; border-bottom-color: #2a2f3a; }
+  .grid-card .table tbody td { color: #d6dae0; border-bottom-color: #2a2f3a; }
   .form-label { color: #c2c9d2; }
   .form-control, .form-select {
     background: #1f2430;

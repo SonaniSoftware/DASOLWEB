@@ -27,6 +27,7 @@ import { MenuMasterComponent } from './developer/menu-master/menu-master.compone
 import { FormMasterComponent } from './developer/form-master/form-master.component';
 import { ModulePermitComponent } from './developer/module-permit/module-permit.component';
 import { GridActionsComponent } from './developer/grid-actions.component';
+import { PermitCheckboxComponent } from './developer/permit-checkbox.component';
 import { IconPickerComponent } from './developer/icon-picker.component';
 import { TabBarComponent } from './main/tab-bar/tab-bar.component';
 
@@ -49,6 +50,7 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     FormMasterComponent,
     ModulePermitComponent,
     GridActionsComponent,
+    PermitCheckboxComponent,
     IconPickerComponent,
     TabBarComponent
   ],
