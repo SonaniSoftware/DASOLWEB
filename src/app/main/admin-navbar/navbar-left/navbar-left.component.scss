@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f5f7f9;
+  border-radius: 8px;
+  color: #8c8c8c;
+
+  .material-icons {
+    font-size: 20px;
+  }
+
+  .search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #262626;
+    width: 200px;
+
+    &::placeholder {
+      color: #8c8c8c;
+    }
+  }
+}

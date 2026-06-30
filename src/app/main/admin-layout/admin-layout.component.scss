@@ -1,0 +1,126 @@
+$sidebar-width: 260px;
+$header-height: 60px;
+$breakpoint: 991.98px;
+
+:host {
+  display: block;
+}
+
+/* Sidebar (styled internally by app-navigation; positioned here) */
+app-navigation.pc-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  background: #ffffff;
+  border-right: 1px solid #e6ebf1;
+  z-index: 1030;
+  transition: transform 0.25s ease;
+
+  &.navbar-collapsed {
+    transform: translateX(-100%);
+  }
+}
+
+/* Topbar */
+app-admin-navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: $sidebar-width;
+  height: $header-height;
+  z-index: 1025;
+  transition: left 0.25s ease;
+
+  &.navbar-collapsed {
+    left: 0;
+  }
+}
+
+/* Content */
+.pc-container {
+  margin-left: $sidebar-width;
+  padding-top: $header-height;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fafafb;
+  transition: margin-left 0.25s ease;
+
+  &.expanded {
+    margin-left: 0;
+  }
+}
+
+.pc-content {
+  flex: 1;
+  padding: 24px;
+}
+
+.pc-footer {
+  border-top: 1px solid #e6ebf1;
+  background: #ffffff;
+  padding: 16px 24px;
+
+  .footer-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #8c8c8c;
+    font-size: 13px;
+  }
+
+  .footer-link {
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+
+    a {
+      color: #8c8c8c;
+      text-decoration: none;
+
+      &:hover {
+        color: #1677ff;
+      }
+    }
+  }
+}
+
+.pc-menu-overlay {
+  display: none;
+}
+
+/* Mobile: sidebar becomes an off-canvas drawer */
+@media (max-width: $breakpoint) {
+  app-navigation.pc-sidebar {
+    transform: translateX(-100%);
+
+    &.mob-open {
+      transform: translateX(0);
+    }
+  }
+
+  app-admin-navbar {
+    left: 0;
+  }
+
+  .pc-container {
+    margin-left: 0;
+  }
+
+  .pc-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1029;
+
+    &.show {
+      display: block;
+    }
+  }
+}

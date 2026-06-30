@@ -1,0 +1,167 @@
+<div class="auth-page">
+  <!-- Brand panel -->
+  <aside class="auth-aside">
+    <div class="aside-inner">
+      <img src="assets/images/logo.svg" alt="DA Sol" class="aside-logo" />
+      <h2>Create your account</h2>
+      <p>Get started in minutes and bring sales, inventory and reporting together.</p>
+      <img src="assets/images/auth/auth.svg" alt="" class="aside-illustration" />
+    </div>
+  </aside>
+
+  <!-- Form panel -->
+  <section class="auth-content">
+    <div class="auth-card">
+      <div class="brand-mobile">
+        <img src="assets/images/logo.svg" alt="DA Sol" />
+      </div>
+
+      @if (!otpStep) {
+        <h3 class="auth-title">Create account</h3>
+        <p class="auth-subtitle">Start managing your business in minutes.</p>
+
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="form-label" for="firstName">First name</label>
+            <div class="input-icon">
+              <span class="material-icons">person</span>
+              <input #firstNameEl id="firstName" type="text" class="form-control" placeholder="First name" />
+            </div>
+          </div>
+          <div class="col-6">
+            <label class="form-label" for="middleName">Middle name</label>
+            <div class="input-icon">
+              <span class="material-icons">person_outline</span>
+              <input #middleNameEl id="middleName" type="text" class="form-control" placeholder="Father / middle name" />
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="form-label" for="lastName">Last name</label>
+          <div class="input-icon">
+            <span class="material-icons">person</span>
+            <input #lastNameEl id="lastName" type="text" class="form-control" placeholder="Last name" />
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="form-label" for="emailAddress">Email</label>
+          <div class="input-icon">
+            <span class="material-icons">mail</span>
+            <input #emailEl id="emailAddress" type="email" class="form-control" placeholder="you@company.com" />
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="form-label" for="mobile">Mobile</label>
+          <div class="input-icon">
+            <span class="material-icons">smartphone</span>
+            <input #mobileEl id="mobile" type="tel" class="form-control" placeholder="+91 90000 00000" />
+          </div>
+        </div>
+
+        <div class="mt-3 mb-2">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-icon">
+            <span class="material-icons">lock</span>
+            <input
+              #passwordEl
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="At least 8 characters"
+            />
+            <button type="button" class="toggle-pass" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+        </div>
+
+        <label class="form-label mt-3">Verify with</label>
+        <div class="reg-type" role="tablist" aria-label="Verification channel">
+          <button type="button" class="reg-opt" [class.active]="verifyChannel === 'email'" (click)="setChannel('email')">
+            <span class="material-icons">mail</span>
+            <span class="ro-text">
+              <span class="ro-label">Email</span>
+              <span class="ro-sub">OTP sent to email</span>
+            </span>
+          </button>
+          <button type="button" class="reg-opt" [class.active]="verifyChannel === 'mobile'" (click)="setChannel('mobile')">
+            <span class="material-icons">sms</span>
+            <span class="ro-text">
+              <span class="ro-label">Mobile</span>
+              <span class="ro-sub">OTP sent by SMS</span>
+            </span>
+          </button>
+        </div>
+
+        <p class="terms">
+          By signing up, you agree to our
+          <a href="javascript:void(0)">Terms of Service</a> and
+          <a href="javascript:void(0)">Privacy Policy</a>.
+        </p>
+
+        <button
+          type="button"
+          class="btn btn-auth w-100"
+          [disabled]="loading"
+          (click)="onRegister(firstNameEl.value, middleNameEl.value, lastNameEl.value, emailEl.value, mobileEl.value, passwordEl.value)"
+        >
+          {{ loading ? 'Creating…' : 'Create account' }}
+        </button>
+
+        <div class="auth-divider"><span>or sign up with</span></div>
+
+        <div class="social-row">
+          @for (item of SignUpOption; track item.name) {
+            <button type="button" class="btn-social">
+              <img [src]="item.image" [alt]="item.name" />
+              <span>{{ item.name }}</span>
+            </button>
+          }
+        </div>
+
+        <p class="auth-foot">Already have an account? <a [routerLink]="['/auth/login']">Sign in</a></p>
+      } @else {
+        <!-- OTP verification step -->
+        <div class="otp-head">
+          <span class="material-icons otp-badge">mark_email_read</span>
+          <h3 class="auth-title">Verify your {{ pendingChannel }}</h3>
+          <p class="auth-subtitle">
+            We sent a verification code to <b>{{ maskedDestination || pendingEmail }}</b>. Enter it below to activate your account.
+          </p>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label" for="otp">Verification code</label>
+          <div class="input-icon">
+            <span class="material-icons">pin</span>
+            <input
+              #otpEl
+              id="otp"
+              type="text"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="8"
+              class="form-control otp-input"
+              placeholder="______"
+              (keyup.enter)="onVerify(otpEl.value)"
+            />
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-auth w-100" [disabled]="verifying" (click)="onVerify(otpEl.value)">
+          {{ verifying ? 'Verifying…' : 'Verify & continue' }}
+        </button>
+
+        <p class="auth-foot">
+          Didn't get the code?
+          <a href="javascript:void(0)" (click)="onResend()">Resend</a>
+          <span class="text-muted"> · </span>
+          <a href="javascript:void(0)" (click)="otpStep = false">Change details</a>
+        </p>
+      }
+    </div>
+  </section>
+</div>

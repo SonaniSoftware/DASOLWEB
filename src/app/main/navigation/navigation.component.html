@@ -1,0 +1,24 @@
+<div class="pc-sidebar-inner">
+  <div class="navbar-brand">
+    <a routerLink="/dashboard/default" class="b-brand">
+      <img src="assets/images/logo.svg" alt="logo" class="logo" />
+    </a>
+  </div>
+
+  <nav class="navbar-content">
+    <ul class="pc-navbar">
+      @for (group of navigationItems; track group.id) {
+        <li class="nav-group">
+          @if (group.title) {
+            <span class="nav-group-label">{{ group.title }}</span>
+          }
+          <ul class="nav-group-items">
+            @for (item of group.children; track item.id) {
+              <li><app-nav-item [item]="item"></app-nav-item></li>
+            }
+          </ul>
+        </li>
+      }
+    </ul>
+  </nav>
+</div>

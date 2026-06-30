@@ -1,0 +1,43 @@
+@if (item.type === 'collapse') {
+  <a class="nav-link collapse-toggle" [class.open]="expanded" tabindex="-1" role="treeitem" [attr.aria-expanded]="expanded" [style.paddingLeft.px]="paddingLeft" (click)="toggle()">
+    @if (item.icon) {
+      <span class="material-icons nav-icon">{{ item.icon }}</span>
+    }
+    <span class="nav-text">{{ item.title }}</span>
+    <span class="material-icons arrow">expand_more</span>
+  </a>
+  <ul class="nav-submenu" [class.open]="expanded">
+    @for (child of item.children; track child.id) {
+      <li><app-nav-item [item]="child" [depth]="depth + 1"></app-nav-item></li>
+    }
+  </ul>
+} @else if (item.url && item.external) {
+  <a class="nav-link" [href]="item.url" target="_blank" rel="noopener" tabindex="-1" role="treeitem" [style.paddingLeft.px]="paddingLeft">
+    @if (item.icon) {
+      <span class="material-icons nav-icon">{{ item.icon }}</span>
+    }
+    <span class="nav-text">{{ item.title }}</span>
+  </a>
+} @else if (item.url) {
+  <a
+    class="nav-link"
+    [routerLink]="item.url"
+    routerLinkActive="active"
+    tabindex="-1"
+    role="treeitem"
+    [style.paddingLeft.px]="paddingLeft"
+    (click)="onLeafClick()"
+  >
+    @if (item.icon) {
+      <span class="material-icons nav-icon">{{ item.icon }}</span>
+    }
+    <span class="nav-text">{{ item.title }}</span>
+  </a>
+} @else {
+  <a class="nav-link is-placeholder" tabindex="-1" role="treeitem" [style.paddingLeft.px]="paddingLeft" title="Coming soon">
+    @if (item.icon) {
+      <span class="material-icons nav-icon">{{ item.icon }}</span>
+    }
+    <span class="nav-text">{{ item.title }}</span>
+  </a>
+}

@@ -1,0 +1,36 @@
+<app-navigation
+  class="pc-sidebar"
+  [ngClass]="{ 'navbar-collapsed': navCollapsed, 'mob-open': navCollapsedMob }"
+  (NavCollapse)="closeMenu()"
+></app-navigation>
+
+<app-admin-navbar
+  [ngClass]="{ 'navbar-collapsed': navCollapsed }"
+  (toggleSidebar)="toggleSidebar()"
+></app-admin-navbar>
+
+<div class="pc-container" [class.expanded]="navCollapsed">
+  <app-tab-bar></app-tab-bar>
+  <div class="pc-content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <footer class="pc-footer">
+    <div class="footer-wrapper">
+      <p class="m-0">Copyright © {{ year }} Sonani</p>
+      <ul class="footer-link">
+        <li><a href="javascript:void(0)">Home</a></li>
+        <li><a href="javascript:void(0)">Privacy Policy</a></li>
+        <li><a href="javascript:void(0)">Contact us</a></li>
+      </ul>
+    </div>
+  </footer>
+</div>
+
+<div
+  class="pc-menu-overlay"
+  [class.show]="navCollapsedMob"
+  (click)="closeMenu()"
+  (keydown)="handleKeyDown($event)"
+  tabindex="0"
+></div>

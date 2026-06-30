@@ -1,0 +1,21 @@
+@if (tab.tabs().length) {
+  <div class="tab-bar">
+    <div class="tab-strip">
+      @for (t of tab.tabs(); track t.url) {
+        <div class="work-tab" [class.active]="t.url === tab.activeUrl()" (click)="select(t.url)">
+          <span class="material-icons wt-icon">{{ t.icon }}</span>
+          <span class="wt-title">{{ t.title }}</span>
+          <button class="wt-close" type="button" (click)="close(t.url, $event)" title="Close">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+      }
+    </div>
+
+    @if (tab.tabs().length > 1) {
+      <button class="tab-closeall" type="button" (click)="closeAll()" title="Close all tabs">
+        <span class="material-icons">close_fullscreen</span>
+      </button>
+    }
+  </div>
+}

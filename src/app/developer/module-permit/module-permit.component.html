@@ -1,0 +1,63 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div>
+      <h1>Module Permit</h1>
+      <p>Assign which modules a user can see (STT_ModulePermit)</p>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row g-2 align-items-end">
+        <div class="col-md-5">
+          <label class="form-label">User</label>
+          <select class="form-select" [(ngModel)]="selectedUserId" (ngModelChange)="onUserChange()">
+            <option [ngValue]="0">— Select a user —</option>
+            @for (u of users; track u.UserID) {
+              <option [ngValue]="u.UserID">{{ u.FullName || u.UserName }} ({{ u.UserCode }})</option>
+            }
+          </select>
+        </div>
+        @if (selectedUserId && permits.length) {
+          <div class="col-md-7 d-flex gap-2">
+            <button class="btn btn-light" (click)="toggleAll(true)">Select all</button>
+            <button class="btn btn-light" (click)="toggleAll(false)">Clear all</button>
+            <button class="btn btn-primary ms-auto" [disabled]="saving" (click)="save()">
+              {{ saving ? 'Saving…' : 'Save permissions' }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (selectedUserId) {
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr><th style="width:60px">#</th><th>Code</th><th>Module</th><th class="text-center" style="width:120px">Visible</th></tr>
+          </thead>
+          <tbody>
+            @for (p of permits; track p.ModuleID) {
+              <tr>
+                <td>{{ p.ModuleID }}</td>
+                <td><span class="badge bg-light text-dark">{{ p.ModuleCode }}</span></td>
+                <td>{{ p.ModuleName }}</td>
+                <td class="text-center">
+                  <div class="form-check d-inline-block">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="p.ISVisible" />
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr><td colspan="4" class="text-center text-muted py-4">{{ loading ? 'Loading…' : 'No modules.' }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="text-center text-muted py-5">Select a user to manage their module access.</div>
+  }
+</div>

@@ -1,0 +1,306 @@
+:host {
+  display: block;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  background: #eef2f9;
+}
+
+/* ---- Brand panel (left) ---- */
+.auth-aside {
+  display: none;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(160deg, #1677ff 0%, #0b54d6 55%, #0a3fa3 100%);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  &::before {
+    width: 420px;
+    height: 420px;
+    top: -130px;
+    right: -120px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &::after {
+    width: 320px;
+    height: 320px;
+    bottom: -110px;
+    left: -90px;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.aside-inner {
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  max-width: 440px;
+  padding: 48px;
+  text-align: center;
+
+  h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 0.85;
+    margin-bottom: 36px;
+  }
+}
+
+.aside-logo {
+  height: 38px;
+  margin-bottom: 32px;
+  filter: brightness(0) invert(1);
+}
+
+.aside-illustration {
+  width: 100%;
+  max-width: 360px;
+}
+
+/* ---- Form panel (right) ---- */
+.auth-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.brand-mobile {
+  text-align: center;
+  margin-bottom: 28px;
+
+  img {
+    height: 38px;
+  }
+}
+
+.auth-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #101828;
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  font-size: 14px;
+  color: #667085;
+  margin-bottom: 28px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #344054;
+  margin-bottom: 6px;
+}
+
+/* Icon inputs */
+.input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  > .material-icons {
+    position: absolute;
+    left: 14px;
+    font-size: 20px;
+    color: #98a2b3;
+    pointer-events: none;
+  }
+
+  .form-control {
+    height: 48px;
+    padding-left: 44px;
+    border-radius: 12px;
+    border: 1px solid #d0d5dd;
+    font-size: 14px;
+
+    &:focus {
+      border-color: #1677ff;
+      box-shadow: 0 0 0 4px rgba(22, 119, 255, 0.12);
+    }
+  }
+}
+
+.toggle-pass {
+  position: absolute;
+  right: 6px;
+  display: flex;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: #98a2b3;
+  cursor: pointer;
+
+  &:hover {
+    color: #475467;
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+}
+
+.form-check-label {
+  font-size: 13px;
+  color: #475467;
+}
+
+.link-muted {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1677ff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Primary button */
+.btn-auth {
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #1677ff, #0b54d6);
+  transition:
+    filter 0.15s ease,
+    transform 0.05s ease;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.06);
+    color: #fff;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+  }
+}
+
+/* Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 22px 0;
+  color: #98a2b3;
+  font-size: 12px;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e4e7ec;
+  }
+
+  span {
+    padding: 0 12px;
+  }
+}
+
+/* Social buttons */
+.social-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-social {
+  flex: 1;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #344054;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #1677ff;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
+
+  span {
+    display: none;
+  }
+}
+
+.auth-foot {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #667085;
+
+  a {
+    color: #1677ff;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* ---- Responsive ---- */
+@media (min-width: 992px) {
+  .auth-aside {
+    display: flex;
+  }
+
+  .auth-content {
+    flex: 0 0 520px;
+  }
+
+  .brand-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 480px) {
+  .btn-social span {
+    display: inline;
+  }
+}

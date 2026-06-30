@@ -1,0 +1,38 @@
+<div class="header-right">
+  <button class="icon-btn" type="button" aria-label="Notifications">
+    <span class="material-icons">notifications_none</span>
+    <span class="badge-dot"></span>
+  </button>
+
+  <div class="user-dropdown" (click)="$event.stopPropagation()">
+    <button class="user-btn" type="button" (click)="toggle($event)">
+      <span class="avatar">{{ initials }}</span>
+      <span class="user-meta d-none d-sm-flex">
+        <span class="user-name">{{ displayName }}</span>
+        <span class="user-role">{{ user?.companyName || 'DA Sol' }}</span>
+      </span>
+      <span class="material-icons chevron">expand_more</span>
+    </button>
+
+    @if (open) {
+      <div class="dropdown-panel">
+        <div class="dropdown-head">
+          <div class="dh-name">{{ displayName }}</div>
+          @if (user?.email) {
+            <div class="dh-email">{{ user?.email }}</div>
+          }
+        </div>
+        <a class="dropdown-item" href="javascript:void(0)">
+          <span class="material-icons">person</span> Profile
+        </a>
+        <a class="dropdown-item" href="javascript:void(0)">
+          <span class="material-icons">settings</span> Settings
+        </a>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item danger" type="button" (click)="logout()">
+          <span class="material-icons">logout</span> Logout
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,65 @@
+@if (group; as g) {
+  <div class="module-page">
+    <!-- Header -->
+    <header class="module-header">
+      <div class="mh-left">
+        <span class="mh-icon material-icons">{{ g.icon }}</span>
+        <div>
+          <nav class="mh-crumb">
+            <span>{{ g.name }}</span>
+            @if (menuName) {
+              <span class="material-icons">chevron_right</span>
+              <span class="current">{{ menuName }}</span>
+            }
+          </nav>
+          <h1 class="mh-title">{{ menuName || g.name }}</h1>
+          <p class="mh-desc">{{ menuName ? 'Forms under this menu' : g.description }}</p>
+        </div>
+      </div>
+      <span class="mh-code">{{ g.code }}</span>
+    </header>
+
+    @if (loading) {
+      <div class="state-note"><span class="material-icons spin">progress_activity</span> Loading…</div>
+    } @else if (!menuId) {
+      <!-- No menu chosen -->
+      <div class="pick-prompt">
+        <span class="material-icons">ads_click</span>
+        <p class="pp-title">Select a menu</p>
+        <p class="pp-sub">Open {{ g.name }} in the sidebar and pick a menu to view its forms here.</p>
+      </div>
+    } @else if (forms.length) {
+      <!-- Selected menu's forms -->
+      <div class="panel-toolbar">
+        <h2 class="panel-title">Forms</h2>
+        <span class="panel-count">{{ forms.length }} item{{ forms.length === 1 ? '' : 's' }}</span>
+      </div>
+      <div class="menu-grid">
+        @for (f of forms; track f.formId) {
+          <a class="menu-card" [routerLink]="f.routePath || null">
+            <span class="mc-icon material-icons">{{ f.isReport ? 'assessment' : 'description' }}</span>
+            <span class="mc-text">
+              <span class="mc-name">{{ f.formName }}</span>
+              <span class="mc-sub">{{ f.formCode }}{{ f.formType ? ' · ' + f.formType : '' }}</span>
+            </span>
+            <span class="mc-chev material-icons">chevron_right</span>
+          </a>
+        }
+      </div>
+    } @else {
+      <!-- Menu has no forms -->
+      <div class="empty-state">
+        <span class="material-icons">inbox</span>
+        <p class="es-title">No forms in this menu</p>
+        <p class="es-sub">{{ menuName }} — add forms under this menu to see them here.</p>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="module-missing">
+    <span class="material-icons">error_outline</span>
+    <h2>Module not found</h2>
+    <p>The requested module does not exist.</p>
+    <a routerLink="/dashboard/default" class="btn-solid">Back to dashboard</a>
+  </div>
+}

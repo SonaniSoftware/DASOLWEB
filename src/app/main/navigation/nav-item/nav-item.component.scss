@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  color: #5b6b79;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background-color: #f5f7f9;
+    color: #1677ff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1677ff;
+    outline-offset: -2px;
+    background-color: #eef4ff;
+    color: #1677ff;
+  }
+
+  &.active {
+    color: #1677ff;
+    background-color: #e6f0ff;
+    border-left-color: #1677ff;
+    font-weight: 600;
+  }
+
+  &.is-placeholder {
+    opacity: 0.65;
+    cursor: default;
+
+    &:hover {
+      background-color: transparent;
+      color: #5b6b79;
+    }
+  }
+}
+
+.nav-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.nav-text {
+  flex: 1;
+}
+
+.arrow {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.collapse-toggle.open .arrow {
+  transform: rotate(180deg);
+}
+
+.nav-submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+
+  &.open {
+    max-height: 600px;
+  }
+}

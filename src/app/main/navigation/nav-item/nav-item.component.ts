@@ -1,0 +1,34 @@
+import { Component, Input, inject } from '@angular/core';
+import { NavigationItem } from '../navigation-items';
+import { LayoutStateService } from '../../../core/services/layout-state.service';
+
+@Component({
+  selector: 'app-nav-item',
+  standalone: false,
+  templateUrl: './nav-item.component.html',
+  styleUrl: './nav-item.component.scss',
+})
+export class NavItemComponent {
+  @Input() item!: NavigationItem;
+  /** Nesting depth — drives left indentation. */
+  @Input() depth = 0;
+
+  expanded = false;
+
+  private layout = inject(LayoutStateService);
+
+  get paddingLeft(): number {
+    return 24 + this.depth * 16;
+  }
+
+  toggle(): void {
+    this.expanded = !this.expanded;
+  }
+
+  /** Close the mobile drawer after navigating to a leaf. */
+  onLeafClick(): void {
+    if (window.innerWidth < 992) {
+      this.layout.close();
+    }
+  }
+}

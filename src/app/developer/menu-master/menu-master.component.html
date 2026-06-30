@@ -1,0 +1,68 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div>
+      <h1>Menu Master</h1>
+      <p>Manage menus (STT_MenuMaster)</p>
+    </div>
+    <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Menu</button>
+  </div>
+
+  @if (showForm) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="mb-3">{{ editId ? 'Edit' : 'New' }} Menu</h6>
+        <div class="row g-2">
+          <div class="col-md-3">
+            <label class="form-label">Module *</label>
+            <select class="form-select" [(ngModel)]="model.moduleId">
+              @for (m of modules; track m.ModuleID) {
+                <option [ngValue]="m.ModuleID">{{ m.ModuleName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Code *</label>
+            <input class="form-control" [(ngModel)]="model.menuCode" maxlength="50" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Name *</label>
+            <input class="form-control" [(ngModel)]="model.menuName" maxlength="100" />
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Tab</label>
+            <input class="form-control" [(ngModel)]="model.menuTab" maxlength="50" placeholder="Master" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Icon</label>
+            <app-icon-picker [(value)]="model.menuIcon"></app-icon-picker>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Route Path</label>
+            <input class="form-control" [(ngModel)]="model.routePath" maxlength="200" placeholder="/developer/module-master" />
+          </div>
+          <div class="col-12 d-flex align-items-center gap-3 mt-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="menuAct" [(ngModel)]="model.isActive" />
+              <label class="form-check-label" for="menuAct">Active</label>
+            </div>
+            <button class="btn btn-primary" (click)="save()">Save</button>
+            <button class="btn btn-light" (click)="showForm = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <ag-grid-angular
+    class="dev-grid"
+    style="width: 100%; height: 520px;"
+    [theme]="theme"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [context]="context"
+    [animateRows]="true"
+    [pagination]="true"
+    [paginationPageSize]="20"
+  ></ag-grid-angular>
+</div>

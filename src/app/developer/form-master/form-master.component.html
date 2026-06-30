@@ -1,0 +1,73 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div>
+      <h1>Form Master</h1>
+      <p>Manage forms (STT_FormMaster)</p>
+    </div>
+    <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Form</button>
+  </div>
+
+  @if (showForm) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="mb-3">{{ editId ? 'Edit' : 'New' }} Form</h6>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label">Menu *</label>
+            <select class="form-select" [(ngModel)]="model.menuId">
+              @for (m of menus; track m.MenuID) {
+                <option [ngValue]="m.MenuID">{{ m.ModuleName }} · {{ m.MenuName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Code *</label>
+            <input class="form-control" [(ngModel)]="model.formCode" maxlength="50" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Name *</label>
+            <input class="form-control" [(ngModel)]="model.formName" maxlength="100" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Type</label>
+            <select class="form-select" [(ngModel)]="model.formType">
+              @for (t of formTypes; track t) { <option [ngValue]="t">{{ t }}</option> }
+            </select>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Route Path</label>
+            <input class="form-control" [(ngModel)]="model.routePath" maxlength="200" placeholder="/developer/module-master" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Controller</label>
+            <input class="form-control" [(ngModel)]="model.controller" maxlength="100" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Action</label>
+            <input class="form-control" [(ngModel)]="model.actionName" maxlength="100" />
+          </div>
+          <div class="col-12 d-flex align-items-center gap-3 mt-2 flex-wrap">
+            <div class="form-check"><input class="form-check-input" type="checkbox" id="fPopup" [(ngModel)]="model.isPopup" /><label class="form-check-label" for="fPopup">Popup</label></div>
+            <div class="form-check"><input class="form-check-input" type="checkbox" id="fReport" [(ngModel)]="model.isReport" /><label class="form-check-label" for="fReport">Report</label></div>
+            <div class="form-check"><input class="form-check-input" type="checkbox" id="fAct" [(ngModel)]="model.isActive" /><label class="form-check-label" for="fAct">Active</label></div>
+            <button class="btn btn-primary" (click)="save()">Save</button>
+            <button class="btn btn-light" (click)="showForm = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <ag-grid-angular
+    class="dev-grid"
+    style="width: 100%; height: 520px;"
+    [theme]="theme"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [context]="context"
+    [animateRows]="true"
+    [pagination]="true"
+    [paginationPageSize]="20"
+  ></ag-grid-angular>
+</div>

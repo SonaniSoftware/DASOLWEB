@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+
+// ---- Brand overrides (must come BEFORE the Bootstrap import) ----
+$primary: #1677ff;
+$body-bg: #fafafb;
+$body-color: #131523;
+$border-color: #e6ebf1;
+$border-radius: 0.375rem;
+$font-family-sans-serif: 'Roboto', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+// Full Bootstrap (gives .card, .btn, .form-control, grid, utilities, CSS vars, etc.)
+@import 'bootstrap/scss/bootstrap';
+
+// Toast notifications
+@import 'ngx-toastr/toastr';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* rebuild nudge */

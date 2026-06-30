@@ -1,0 +1,141 @@
+<div class="auth-page">
+  <!-- Brand panel -->
+  <aside class="auth-aside">
+    <div class="aside-inner">
+      <img src="assets/images/logo.svg" alt="DA Sol" class="aside-logo" />
+      <h2>Welcome back</h2>
+      <p>Manage purchases, inventory, sales, account and reports — your whole business in one place.</p>
+      <img src="assets/images/auth/auth.svg" alt="" class="aside-illustration" />
+    </div>
+  </aside>
+
+  <!-- Form panel -->
+  <section class="auth-content">
+    <div class="auth-card">
+      <div class="brand-mobile">
+        <img src="assets/images/logo.svg" alt="DA Sol" />
+      </div>
+
+      @if (mode === 'login') {
+        <h3 class="auth-title">Sign in</h3>
+        <p class="auth-subtitle">Enter your credentials to access your account.</p>
+
+        <div class="mb-3">
+          <label class="form-label" for="email">Email</label>
+          <div class="input-icon">
+            <span class="material-icons">mail</span>
+            <input #emailEl id="email" type="email" class="form-control" placeholder="you@company.com" [value]="rememberedEmail" />
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-icon">
+            <span class="material-icons">lock</span>
+            <input
+              #passwordEl
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="••••••••"
+              (keyup.enter)="onLogin(emailEl.value, passwordEl.value)"
+            />
+            <button type="button" class="toggle-pass" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              <span class="material-icons">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div class="form-check">
+            <input #rememberEl class="form-check-input" type="checkbox" id="remember" [checked]="rememberMe" (change)="onRememberChange(rememberEl.checked)" />
+            <label class="form-check-label" for="remember">Remember me</label>
+          </div>
+          <a href="javascript:void(0)" class="link-muted" (click)="openForgot(emailEl.value)">Forgot password?</a>
+        </div>
+
+        <button type="button" class="btn btn-auth w-100" [disabled]="loading" (click)="onLogin(emailEl.value, passwordEl.value)">
+          {{ loading ? 'Signing in…' : 'Sign in' }}
+        </button>
+
+        <div class="auth-divider"><span>or continue with</span></div>
+
+        <div class="social-row">
+          @for (item of SignInOption; track item.name) {
+            <button type="button" class="btn-social">
+              <img [src]="item.image" [alt]="item.name" />
+              <span>{{ item.name }}</span>
+            </button>
+          }
+        </div>
+
+        <p class="auth-foot">Don't have an account? <a [routerLink]="['/auth/register']">Sign up</a></p>
+      } @else if (mode === 'request') {
+        <h3 class="auth-title">Reset password</h3>
+        <p class="auth-subtitle">Enter your account email and we'll send you a reset code.</p>
+
+        <div class="mb-3">
+          <label class="form-label" for="fpEmail">Email</label>
+          <div class="input-icon">
+            <span class="material-icons">mail</span>
+            <input
+              #fpEmailEl
+              id="fpEmail"
+              type="email"
+              class="form-control"
+              placeholder="you@company.com"
+              [value]="fpEmail"
+              (keyup.enter)="onForgotRequest(fpEmailEl.value)"
+            />
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-auth w-100" [disabled]="fpLoading" (click)="onForgotRequest(fpEmailEl.value)">
+          {{ fpLoading ? 'Sending…' : 'Send reset code' }}
+        </button>
+
+        <p class="auth-foot"><a href="javascript:void(0)" (click)="backToLogin()">← Back to sign in</a></p>
+      } @else {
+        <h3 class="auth-title">Set a new password</h3>
+        <p class="auth-subtitle">We sent a code to <b>{{ fpEmail }}</b>. Enter it with your new password.</p>
+
+        <div class="mb-3">
+          <label class="form-label" for="resetOtp">Verification code</label>
+          <div class="input-icon">
+            <span class="material-icons">pin</span>
+            <input #resetOtpEl id="resetOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" class="form-control" placeholder="6-digit code" />
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label" for="newPass">New password</label>
+          <div class="input-icon">
+            <span class="material-icons">lock</span>
+            <input
+              #newPassEl
+              id="newPass"
+              [type]="showNewPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="At least 8 characters"
+              (keyup.enter)="onResetPassword(resetOtpEl.value, newPassEl.value)"
+            />
+            <button type="button" class="toggle-pass" (click)="showNewPassword = !showNewPassword" [attr.aria-label]="showNewPassword ? 'Hide password' : 'Show password'">
+              <span class="material-icons">{{ showNewPassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-auth w-100 mt-2" [disabled]="fpLoading" (click)="onResetPassword(resetOtpEl.value, newPassEl.value)">
+          {{ fpLoading ? 'Resetting…' : 'Reset password' }}
+        </button>
+
+        <p class="auth-foot">
+          Didn't get the code?
+          <a href="javascript:void(0)" (click)="onResendCode()">Resend</a>
+          <span class="text-muted"> · </span>
+          <a href="javascript:void(0)" (click)="backToLogin()">Back to sign in</a>
+        </p>
+      }
+    </div>
+  </section>
+</div>
