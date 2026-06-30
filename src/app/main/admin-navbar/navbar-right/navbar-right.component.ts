@@ -1,5 +1,6 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { AuthService, User } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar-right',
@@ -9,8 +10,10 @@ import { AuthService, User } from '../../../core/services/auth.service';
 })
 export class NavbarRightComponent {
   private auth = inject(AuthService);
+  readonly theme = inject(ThemeService);
 
   open = false;
+  themeOpen = false;
 
   get user(): User | null {
     return this.auth.getUser();
@@ -30,11 +33,24 @@ export class NavbarRightComponent {
   toggle(event: Event): void {
     event.stopPropagation();
     this.open = !this.open;
+    this.themeOpen = false;
+  }
+
+  toggleTheme(event: Event): void {
+    event.stopPropagation();
+    this.themeOpen = !this.themeOpen;
+    this.open = false;
+  }
+
+  selectTheme(id: string): void {
+    this.theme.select(id);
+    this.themeOpen = false;
   }
 
   @HostListener('document:click')
   onDocumentClick(): void {
     this.open = false;
+    this.themeOpen = false;
   }
 
   logout(): void {

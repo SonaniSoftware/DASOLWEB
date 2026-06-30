@@ -56,16 +56,16 @@ import { IconService } from './icon.service';
     .ip-panel {
       position: absolute; z-index: 1100; top: calc(100% + 4px); left: 0; width: 300px;
       background: #fff; border: 1px solid #e6ebf1; border-radius: 10px;
-      box-shadow: 0 8px 24px rgba(16,24,40,.12); padding: 10px;
+      box-shadow: 0 8px 24px rgba(16,24,40,.12); padding: 1px;
     }
-    .ip-search { display: flex; align-items: center; gap: 6px; border: 1px solid #d0d5dd; border-radius: 8px; padding: 6px 10px; margin-bottom: 8px; }
+    .ip-search { display: flex; align-items: center; gap: 6px; border: 1px solid #d0d5dd; border-radius: 8px; padding: 1px; margin-bottom: 8px; }
     .ip-search > .material-icons { font-size: 18px; color: #98a2b3; }
     .ip-search input { border: none; outline: none; flex: 1; font-size: 14px; min-width: 0; }
     .ip-clear { border: none; background: transparent; color: #98a2b3; cursor: pointer; font-size: 18px; }
 
     .ip-list { max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
     .ip-row {
-      display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 10px;
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 1px;
       border: none; background: transparent; border-radius: 8px; cursor: pointer; text-align: left; color: #344054;
     }
     .ip-row .material-icons { font-size: 20px; color: #475467; flex-shrink: 0; }
@@ -74,9 +74,9 @@ import { IconService } from './icon.service';
     .ip-row.active { background: #1677ff; color: #fff; }
     .ip-row.active .material-icons { color: #fff; }
 
-    .ip-use { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px dashed #d0d5dd; border-radius: 8px; background: #fff; color: #1677ff; cursor: pointer; }
+    .ip-use { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 1px; border: 1px dashed #d0d5dd; border-radius: 8px; background: #fff; color: #1677ff; cursor: pointer; }
     .ip-use .material-icons { font-size: 20px; }
-    .ip-more { padding: 8px 4px 2px; font-size: 12px; color: #98a2b3; text-align: center; }
+    .ip-more { padding: 1px; font-size: 12px; color: #98a2b3; text-align: center; }
     `,
   ],
 })

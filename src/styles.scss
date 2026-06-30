@@ -23,4 +23,98 @@ body {
   margin: 0;
 }
 
+/* =====================================================================
+   App theming — accent color + dark mode (driven by ThemeService)
+   ThemeService sets on <html>: data-bs-theme, data-theme, --app-primary.
+   ===================================================================== */
+
+:root {
+  --app-primary: #1677ff;
+  --app-primary-rgb: 22, 119, 255;
+}
+
+/* Accent color → Bootstrap primary buttons (works in light & dark) */
+.btn-primary {
+  --bs-btn-bg: var(--app-primary);
+  --bs-btn-border-color: var(--app-primary);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--app-primary), #000 12%);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--app-primary), #000 12%);
+  --bs-btn-active-bg: color-mix(in srgb, var(--app-primary), #000 18%);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--app-primary), #000 18%);
+  --bs-btn-disabled-bg: var(--app-primary);
+  --bs-btn-disabled-border-color: var(--app-primary);
+  --bs-btn-focus-shadow-rgb: var(--app-primary-rgb);
+}
+
+/* ---- Dark mode: recolor the app shell + common content ----
+   Prefixed with html[...] so these win over component-scoped rules. */
+html[data-bs-theme='dark'] {
+  --bs-body-bg: #0f1115;
+  --bs-body-color: #d6dae0;
+  --bs-border-color: #2a2f3a;
+  --bs-card-bg: #161a20;
+  --bs-card-border-color: #2a2f3a;
+  color-scheme: dark;
+
+  /* Layout surfaces */
+  .pc-container { background: #0f1115; }
+  .pc-content { color: #d6dae0; }
+  .pc-footer { background: #161a20; border-top-color: #2a2f3a; }
+  .pc-header { background: #161a20; border-bottom-color: #2a2f3a; }
+  .btn-toggle { color: #d6dae0; }
+  .btn-toggle:hover { background: #1f2430; }
+
+  /* Search box (navbar-left) */
+  .search-box { background: #1f2430; color: #8a93a3; }
+  .search-input { color: #e6e9ee; }
+
+  /* Sidebar (app-navigation) */
+  app-navigation.pc-sidebar { background: #161a20; border-right-color: #2a2f3a; }
+  .navbar-brand { border-bottom-color: #2a2f3a; }
+  .nav-group + .nav-group { border-top-color: #232833; }
+  .nav-group-label { color: #8a93a3; }
+  .nav-link { color: #c2c9d2; }
+  .nav-link:hover { background: #1f2430; color: #ffffff; }
+  .nav-link.active { background: rgba(var(--app-primary-rgb), 0.16); color: #ffffff; }
+
+  /* Work tabs */
+  .tab-bar { background: #14181e; border-bottom-color: #2a2f3a; }
+  .work-tab { background: #1f2430; border-color: #2a2f3a; color: #c2c9d2; }
+  .work-tab:hover { background: #262c38; }
+  .work-tab.active { background: #161a20; color: var(--app-primary); box-shadow: 0 -2px 0 var(--app-primary) inset; }
+  .tab-closeall { background: #1f2430; border-color: #2a2f3a; color: #c2c9d2; }
+
+  /* Header dropdowns (notifications / theme / user) */
+  .icon-btn { color: #c2c9d2; }
+  .icon-btn:hover, .icon-btn.active { background: #1f2430; }
+  .user-name { color: #e6e9ee; }
+  .dropdown-panel { background: #161a20; border-color: #2a2f3a; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+  .dropdown-head { border-bottom-color: #2a2f3a; }
+  .dh-name { color: #e6e9ee; }
+  .dropdown-item, .theme-item { color: #c2c9d2; }
+  .dropdown-item:hover, .theme-item:hover { background: #1f2430; }
+  .dropdown-divider { background: #2a2f3a; }
+
+  /* Content: headings, cards, forms */
+  .dev-head h1 { color: #e6e9ee; }
+  .dev-head p { color: #8a93a3; }
+  .card { background: #161a20; border-color: #2a2f3a; }
+  .card .card-body > h6 { color: #e6e9ee; border-bottom-color: #2a2f3a; }
+  .dev-grid { border-color: #2a2f3a; }
+  .form-label { color: #c2c9d2; }
+  .form-control, .form-select {
+    background: #1f2430;
+    border-color: #2a2f3a;
+    color: #d6dae0;
+  }
+  .form-control::placeholder { color: #6b7480; }
+}
+
+/* AG Grid footer (bottom pagination bar) — Theming API has no param for it */
+.dev-grid .ag-paging-panel {
+  background: #f0f3f8;
+  min-height: 32px;
+  height: 32px;
+}
+
 /* rebuild nudge */

@@ -14,7 +14,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 1px;
   border: none;
   border-radius: 8px;
   background: transparent;
@@ -23,6 +23,10 @@
 
   &:hover {
     background: #f5f7f9;
+  }
+
+  .material-icons {
+    font-size: 22px;
   }
 
   .badge-dot {
@@ -45,7 +49,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 8px;
+  padding: 1px;
   border: none;
   border-radius: 8px;
   background: transparent;
@@ -100,12 +104,12 @@
   border: 1px solid #e6ebf1;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  padding: 8px;
+  padding: 1px;
   z-index: 1100;
 }
 
 .dropdown-head {
-  padding: 8px 12px 12px;
+  padding: 1px;
   border-bottom: 1px solid #f0f0f0;
   margin-bottom: 6px;
 
@@ -125,7 +129,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 9px 12px;
+  padding: 1px;
   border: none;
   background: transparent;
   border-radius: 8px;
@@ -158,4 +162,74 @@
   height: 1px;
   background: #f0f0f0;
   margin: 6px 0;
+}
+
+/* ---- Theme picker ---- */
+.theme-dropdown {
+  position: relative;
+}
+
+.icon-btn.active {
+  background: #f5f7f9;
+  color: var(--app-primary, #1677ff);
+}
+
+.theme-panel {
+  min-width: 240px;
+  padding: 6px;
+}
+
+.theme-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  color: #5b6b79;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    background: #f5f7f9;
+  }
+
+  &.active {
+    background: rgba(var(--app-primary-rgb, 22, 119, 255), 0.1);
+    color: var(--app-primary, #1677ff);
+    font-weight: 600;
+  }
+
+  .swatch {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+
+    &.is-dark {
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.25),
+        inset -8px 0 0 0 #1f2430;
+    }
+  }
+
+  .theme-name {
+    flex: 1;
+  }
+
+  .theme-mode {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #98a2b3;
+  }
+
+  .check {
+    font-size: 18px;
+    color: var(--app-primary, #1677ff);
+  }
 }

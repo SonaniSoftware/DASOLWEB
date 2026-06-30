@@ -5,16 +5,16 @@
 .tab-bar {
   display: flex;
   align-items: stretch;
-  gap: 4px;
+  gap: 1px;
   background: #f0f3f8;
   border-bottom: 1px solid #e6ebf1;
-  padding: 6px 8px 0;
+  padding: 1px;
 }
 
 .tab-strip {
   display: flex;
   align-items: flex-end;
-  gap: 4px;
+  gap: 1px;
   flex: 1;
   overflow-x: auto;
   scrollbar-width: thin;
@@ -23,9 +23,9 @@
 .work-tab {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 1px;
   max-width: 220px;
-  padding: 8px 10px 8px 12px;
+  padding: 1px;
   background: #e4e9f1;
   border: 1px solid #e6ebf1;
   border-bottom: none;
@@ -87,7 +87,7 @@
   background: #fff;
   color: #667085;
   border-radius: 6px;
-  padding: 4px;
+  padding: 1px;
   cursor: pointer;
 
   .material-icons {

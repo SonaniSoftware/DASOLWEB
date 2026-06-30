@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ColDef, ICellRendererParams, themeMaterial } from 'ag-grid-community';
+import { ColDef, ICellRendererParams } from 'ag-grid-community';
 import { DeveloperService, MenuRow, ModuleRow } from '../../core/services/developer.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { GridActionsComponent } from '../grid-actions.component';
-import { statusBadge } from '../grid-shared';
+import { statusBadge, gridTheme } from '../grid-shared';
 
 @Component({
   selector: 'app-menu-master',
@@ -23,7 +23,7 @@ export class MenuMasterComponent implements OnInit {
   model = { moduleId: 0, menuCode: '', menuName: '', menuTab: 'General', menuIcon: '', routePath: '', isActive: true };
 
   // AG Grid
-  readonly theme = themeMaterial;
+  readonly theme = gridTheme;
   readonly context = { componentParent: this };
   readonly defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, flex: 1 };
   readonly columnDefs: ColDef[] = [
