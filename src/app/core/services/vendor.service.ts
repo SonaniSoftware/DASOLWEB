@@ -55,7 +55,7 @@ interface ApiResponse<T> {
 @Injectable({ providedIn: 'root' })
 export class VendorService {
   private http = inject(HttpClient);
-  private readonly api = `${environment.apiUrl}/vendors`;
+  private readonly api = `${environment.apiUrl}/purchase/vendors`;
 
   listVendors(): Observable<VendorRow[]> {
     return this.http.get<ApiResponse<VendorRow[]>>(this.api).pipe(map((r) => r.data));

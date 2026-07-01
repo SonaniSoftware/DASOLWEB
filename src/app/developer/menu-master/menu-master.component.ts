@@ -48,14 +48,21 @@ export class MenuMasterComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.dev.listModules().subscribe((m) => (this.modules = m));
-    this.load();
+    // Load modules first so we can resolve ModuleName for the grid
+    // (STT_MenuMaster_GetData returns ModuleID only).
+    this.dev.listModules().subscribe((m) => { this.modules = m; this.load(); });
   }
 
   load(): void {
     this.loading = true;
     this.dev.listMenus().subscribe({
-      next: (r) => { this.rows = r; this.loading = false; },
+      next: (r) => {
+        this.rows = r.map((row) => ({
+          ...row,
+          ModuleName: this.modules.find((m) => m.ModuleID === row.ModuleID)?.ModuleName ?? '',
+        }));
+        this.loading = false;
+      },
       error: () => (this.loading = false),
     });
   }

@@ -22,6 +22,14 @@ export class NavigationComponent implements OnInit {
   navigationItems: NavigationItem[] = [];
 
   ngOnInit(): void {
+    this.loadNavigation();
+    // Rebuild when a permit save (Module/Menu Permit) asks for a refresh.
+    this.moduleApi.refresh$.subscribe(() => this.loadNavigation());
+  }
+
+  /** (Re)build the sidebar from the current user's module + menu permits. */
+  private loadNavigation(): void {
+    this.loading = true;
     const items: NavigationItem[] = [
       {
         id: 'navigation',

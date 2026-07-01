@@ -35,20 +35,31 @@ export interface FormRow {
   ISReport: boolean;
   ISActive: boolean;
 }
-export interface UserRow {
-  UserID: number;
-  UserCode: string;
-  UserName: string;
-  FullName: string;
-  Email: string;
-}
-export interface PermitRow {
-  ModuleID: number;
-  ModuleCode: string;
-  ModuleName: string;
-  ISVisible: boolean;
+
+export interface ProcessTypeRow {
+  TypeID: number;
+  TypeCode: string;
+  TypeName: string;
+  TypeRemark: string | null;
   ISActive: boolean;
-  HasPermit: boolean;
+}
+export interface ProcessStatusRow {
+  TypeID: number;
+  StatusID: number;
+  TypeName: string;
+  StatusCode: string;
+  StatusName: string;
+  StatusRemark: string | null;
+  ISActive: boolean;
+}
+export interface ProcessMasterRow {
+  TypeID: number;
+  ProcessID: number;
+  TypeName: string;
+  ProcessCode: string;
+  ProcessName: string;
+  ProcessRemark: string | null;
+  ISActive: boolean;
 }
 
 interface ApiResponse<T> {
@@ -107,14 +118,45 @@ export class DeveloperService {
     return this.http.delete<ApiResponse<unknown>>(`${this.api}/forms/${id}`);
   }
 
-  // Users + Module Permit
-  listUsers() {
-    return this.get<UserRow[]>('/users');
+  // Process Type
+  listProcessTypes() {
+    return this.get<ProcessTypeRow[]>('/process-types');
   }
-  getModulePermit(userId: number) {
-    return this.get<PermitRow[]>(`/permit/module/${userId}`);
+  createProcessType(body: unknown) {
+    return this.http.post<ApiResponse<unknown>>(`${this.api}/process-types`, body);
   }
-  saveModulePermit(userId: number, permits: { moduleId: number; isVisible: boolean }[]) {
-    return this.http.post<ApiResponse<unknown>>(`${this.api}/permit/module`, { userId, permits });
+  updateProcessType(id: number, body: unknown) {
+    return this.http.put<ApiResponse<unknown>>(`${this.api}/process-types/${id}`, body);
+  }
+  deleteProcessType(id: number) {
+    return this.http.delete<ApiResponse<unknown>>(`${this.api}/process-types/${id}`);
+  }
+
+  // Process Status (composite key)
+  listProcessStatuses() {
+    return this.get<ProcessStatusRow[]>('/process-statuses');
+  }
+  createProcessStatus(body: unknown) {
+    return this.http.post<ApiResponse<unknown>>(`${this.api}/process-statuses`, body);
+  }
+  updateProcessStatus(typeId: number, statusId: number, body: unknown) {
+    return this.http.put<ApiResponse<unknown>>(`${this.api}/process-statuses/${typeId}/${statusId}`, body);
+  }
+  deleteProcessStatus(typeId: number, statusId: number) {
+    return this.http.delete<ApiResponse<unknown>>(`${this.api}/process-statuses/${typeId}/${statusId}`);
+  }
+
+  // Process Master (composite key)
+  listProcesses() {
+    return this.get<ProcessMasterRow[]>('/processes');
+  }
+  createProcess(body: unknown) {
+    return this.http.post<ApiResponse<unknown>>(`${this.api}/processes`, body);
+  }
+  updateProcess(typeId: number, processId: number, body: unknown) {
+    return this.http.put<ApiResponse<unknown>>(`${this.api}/processes/${typeId}/${processId}`, body);
+  }
+  deleteProcess(typeId: number, processId: number) {
+    return this.http.delete<ApiResponse<unknown>>(`${this.api}/processes/${typeId}/${processId}`);
   }
 }

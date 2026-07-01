@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
@@ -46,6 +46,15 @@ interface ApiResponse<T> {
 export class ModuleService {
   private http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/modules`;
+
+  /** Emits when the sidebar navigation should reload (e.g. after a permit save). */
+  private refresh = new Subject<void>();
+  readonly refresh$ = this.refresh.asObservable();
+
+  /** Ask any listening navigation to rebuild itself from the current permits. */
+  refreshNavigation(): void {
+    this.refresh.next();
+  }
 
   /** Modules the user may see (STT_ModulePermit). */
   getMyGroups(): Observable<PermittedGroup[]> {

@@ -25,11 +25,16 @@ import { ModuleGroupComponent } from './modules/module-group/module-group.compon
 import { ModuleMasterComponent } from './developer/module-master/module-master.component';
 import { MenuMasterComponent } from './developer/menu-master/menu-master.component';
 import { FormMasterComponent } from './developer/form-master/form-master.component';
-import { ModulePermitComponent } from './developer/module-permit/module-permit.component';
+import { ProcessTypeComponent } from './developer/process-type/process-type.component';
+import { ProcessStatusComponent } from './developer/process-status/process-status.component';
+import { ProcessMasterComponent } from './developer/process-master/process-master.component';
+import { ModulePermitComponent } from './settings/module-permit/module-permit.component';
+import { MenuPermitComponent } from './settings/menu-permit/menu-permit.component';
 import { GridActionsComponent } from './developer/grid-actions.component';
 import { PermitCheckboxComponent } from './developer/permit-checkbox.component';
 import { LookupMasterComponent } from './general/lookup-master/lookup-master.component';
 import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.component';
+import { EmployeeRegisterComponent } from './employee/employee-register/employee-register.component';
 import { IconPickerComponent } from './developer/icon-picker.component';
 import { TabBarComponent } from './main/tab-bar/tab-bar.component';
 
@@ -50,11 +55,16 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     ModuleMasterComponent,
     MenuMasterComponent,
     FormMasterComponent,
+    ProcessTypeComponent,
+    ProcessStatusComponent,
+    ProcessMasterComponent,
     ModulePermitComponent,
+    MenuPermitComponent,
     GridActionsComponent,
     PermitCheckboxComponent,
     LookupMasterComponent,
     VendorMasterComponent,
+    EmployeeRegisterComponent,
     IconPickerComponent,
     TabBarComponent
   ],

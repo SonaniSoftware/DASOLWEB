@@ -1,0 +1,87 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div class="form-name">
+      <p>Employee Register</p>
+    </div>
+    <div class="form-head">
+      <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Employee</button>
+    </div>
+  </div>
+
+  @if (showForm) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="mb-3">{{ editId ? 'Edit' : 'New' }} Employee Entry</h6>
+
+        <div class="row g-2">
+          <div class="col-md-3">
+            <label class="form-label">User Name *</label>
+            <input class="form-control" [(ngModel)]="model.userName" maxlength="100" [disabled]="!!editId" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">First Name *</label>
+            <input class="form-control" [(ngModel)]="model.firstName" maxlength="100" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Middle Name</label>
+            <input class="form-control" [(ngModel)]="model.middleName" maxlength="100" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" [(ngModel)]="model.lastName" maxlength="100" />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Aadhar No *</label>
+            <input class="form-control" [(ngModel)]="model.aadharNo" maxlength="20" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Email *</label>
+            <input class="form-control" type="email" [(ngModel)]="model.email" maxlength="255" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Mobile *</label>
+            <input class="form-control" [(ngModel)]="model.mobile" maxlength="20" />
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">{{ editId ? 'Reset Password' : 'Password *' }}</label>
+            <input class="form-control" type="password" [(ngModel)]="model.password" maxlength="100"
+                   [placeholder]="editId ? 'Leave blank to keep' : ''" />
+          </div>
+
+          <div class="col-12"><hr class="my-2" /></div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="empVerify" [(ngModel)]="model.isVerify" />
+              <label class="form-check-label" for="empVerify">Verified</label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="empActive" [(ngModel)]="model.isActive" />
+              <label class="form-check-label" for="empActive">Active</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-primary" (click)="save()">Save</button>
+          <button class="btn btn-light" (click)="showForm = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <ag-grid-angular
+    class="dev-grid"
+    style="width: 100%;"
+    [theme]="theme"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [context]="context"
+    [animateRows]="true"
+    [pagination]="true"
+    [paginationPageSize]="20"
+  ></ag-grid-angular>
+</div>

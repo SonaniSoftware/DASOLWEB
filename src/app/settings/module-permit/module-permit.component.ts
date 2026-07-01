@@ -1,18 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ColDef, ICellRendererParams } from 'ag-grid-community';
-import { DeveloperService, PermitRow, UserRow } from '../../core/services/developer.service';
+import { SettingsService, PermitRow, UserRow } from '../../core/services/settings.service';
+import { ModuleService } from '../../core/services/module.service';
 import { NotificationService } from '../../core/services/notification.service';
-import { gridTheme } from '../grid-shared';
-import { PermitCheckboxComponent } from '../permit-checkbox.component';
+import { gridTheme } from '../../developer/grid-shared';
+import { PermitCheckboxComponent } from '../../developer/permit-checkbox.component';
 
 @Component({
   selector: 'app-module-permit',
   standalone: false,
   templateUrl: './module-permit.component.html',
-  styleUrl: '../developer-page.scss',
+  styleUrl: '../../developer/developer-page.scss',
 })
 export class ModulePermitComponent implements OnInit {
-  private dev = inject(DeveloperService);
+  private settings = inject(SettingsService);
+  private modules = inject(ModuleService);
   private notify = inject(NotificationService);
 
   users: UserRow[] = [];
@@ -46,7 +48,7 @@ export class ModulePermitComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.dev.listUsers().subscribe((u) => (this.users = u));
+    this.settings.listUsers().subscribe((u) => (this.users = u));
   }
 
   onUserChange(): void {
@@ -55,7 +57,7 @@ export class ModulePermitComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.dev.getModulePermit(this.selectedUserId).subscribe({
+    this.settings.getModulePermit(this.selectedUserId).subscribe({
       next: (p) => { this.permits = p.map((r) => ({ ...r, ISVisible: !!r.ISVisible })); this.loading = false; },
       error: () => (this.loading = false),
     });
@@ -72,8 +74,8 @@ export class ModulePermitComponent implements OnInit {
     }
     this.saving = true;
     const payload = this.permits.map((p) => ({ moduleId: p.ModuleID, isVisible: !!p.ISVisible }));
-    this.dev.saveModulePermit(this.selectedUserId, payload).subscribe({
-      next: () => { this.notify.success('Permissions saved.'); this.saving = false; },
+    this.settings.saveModulePermit(this.selectedUserId, payload).subscribe({
+      next: () => { this.notify.success('Permissions saved.'); this.saving = false; this.modules.refreshNavigation(); },
       error: (e) => { this.saving = false; this.notify.error(e?.error?.message ?? 'Save failed.'); },
     });
   }

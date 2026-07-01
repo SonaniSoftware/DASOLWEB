@@ -46,6 +46,11 @@
   .form-name {
     flex: 1;
     text-align: center;
+    padding: 0;
+    margin: 0;
+    border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.25);
+    border-radius: 8px;
+    background: #fff;
 
     p {
       margin: 0;
@@ -60,6 +65,10 @@
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.25);
+    border-radius: 8px;
+    background: #fff;
   }
 }
 

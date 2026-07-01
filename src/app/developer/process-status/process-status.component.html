@@ -1,0 +1,64 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div class="form-name">
+      <p>Process Status</p>
+    </div>
+    <div class="form-head">
+      <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Status</button>
+    </div>
+  </div>
+
+  @if (showForm) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="mb-3">{{ editKeys ? 'Edit' : 'New' }} Process Status</h6>
+        <div class="row g-2">
+          <div class="col-md-3">
+            <label class="form-label">Type *</label>
+            <select class="form-select" [(ngModel)]="model.typeId" [disabled]="!!editKeys">
+              <option [ngValue]="0">— Select —</option>
+              @for (t of types; track t.TypeID) {
+                <option [ngValue]="t.TypeID">{{ t.TypeName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Code *</label>
+            <input class="form-control" [(ngModel)]="model.statusCode" maxlength="50" [disabled]="!!editKeys" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Name *</label>
+            <input class="form-control" [(ngModel)]="model.statusName" maxlength="200" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Remark</label>
+            <input class="form-control" [(ngModel)]="model.statusRemark" maxlength="200" />
+          </div>
+          <div class="col-md-2 d-flex align-items-end">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="psActive" [(ngModel)]="model.isActive" />
+              <label class="form-check-label" for="psActive">Active</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-primary" (click)="save()">Save</button>
+          <button class="btn btn-light" (click)="showForm = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <ag-grid-angular
+    class="dev-grid"
+    style="width: 100%;"
+    [theme]="theme"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [context]="context"
+    [animateRows]="true"
+    [pagination]="true"
+    [paginationPageSize]="20"
+  ></ag-grid-angular>
+</div>

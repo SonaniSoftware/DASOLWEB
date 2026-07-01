@@ -1,0 +1,47 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div class="form-name">
+      <p>Menu Permit</p>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row g-2 align-items-end">
+        <div class="col-md-5">
+          <label class="form-label">User</label>
+          <select class="form-select" [(ngModel)]="selectedUserId" (ngModelChange)="onUserChange()">
+            <option [ngValue]="0">— Select a user —</option>
+            @for (u of users; track u.UserID) {
+              <option [ngValue]="u.UserID">{{ u.FullName || u.UserName }} ({{ u.UserCode }})</option>
+            }
+          </select>
+        </div>
+        @if (selectedUserId && permits.length) {
+          <div class="col-md-7 d-flex gap-2">
+            <button class="btn btn-light" (click)="toggleAll(true)">Select all</button>
+            <button class="btn btn-light" (click)="toggleAll(false)">Clear all</button>
+            <button class="btn btn-primary ms-auto" [disabled]="saving" (click)="save()">
+              {{ saving ? 'Saving…' : 'Save permissions' }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (selectedUserId) {
+    <ag-grid-angular
+      class="dev-grid permit-grid"
+      style="width: 100%;"
+      [theme]="theme"
+      [rowData]="permits"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [context]="context"
+      [animateRows]="true"
+    ></ag-grid-angular>
+  } @else {
+    <div class="text-center text-muted py-5">Select a user to manage their menu access.</div>
+  }
+</div>
