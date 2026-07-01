@@ -28,6 +28,8 @@ import { FormMasterComponent } from './developer/form-master/form-master.compone
 import { ModulePermitComponent } from './developer/module-permit/module-permit.component';
 import { GridActionsComponent } from './developer/grid-actions.component';
 import { PermitCheckboxComponent } from './developer/permit-checkbox.component';
+import { LookupMasterComponent } from './general/lookup-master/lookup-master.component';
+import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.component';
 import { IconPickerComponent } from './developer/icon-picker.component';
 import { TabBarComponent } from './main/tab-bar/tab-bar.component';
 
@@ -51,6 +53,8 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     ModulePermitComponent,
     GridActionsComponent,
     PermitCheckboxComponent,
+    LookupMasterComponent,
+    VendorMasterComponent,
     IconPickerComponent,
     TabBarComponent
   ],

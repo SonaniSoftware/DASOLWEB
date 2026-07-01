@@ -1,0 +1,35 @@
+/* Vendor entry card — 3-tab panel (General / Verify / Account) */
+.vendor-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #e6ebf1;
+  margin-bottom: 16px;
+}
+
+.vendor-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #667085;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+
+  .material-icons {
+    font-size: 18px;
+  }
+
+  &:hover {
+    color: var(--app-primary, #1677ff);
+  }
+
+  &.active {
+    color: var(--app-primary, #1677ff);
+    border-bottom-color: var(--app-primary, #1677ff);
+  }
+}

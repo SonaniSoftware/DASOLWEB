@@ -11,6 +11,8 @@ import { ModuleMasterComponent } from './developer/module-master/module-master.c
 import { MenuMasterComponent } from './developer/menu-master/menu-master.component';
 import { FormMasterComponent } from './developer/form-master/form-master.component';
 import { ModulePermitComponent } from './developer/module-permit/module-permit.component';
+import { LookupMasterComponent } from './general/lookup-master/lookup-master.component';
+import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.component';
 import { authGuard, guestGuard } from './core/gaurds/auth.guard';
 
 const routes: Routes = [
@@ -42,6 +44,12 @@ const routes: Routes = [
       { path: 'developer/menu-master', component: MenuMasterComponent, data: { title: 'Menu Master', icon: 'list_alt' } },
       { path: 'developer/form-master', component: FormMasterComponent, data: { title: 'Form Master', icon: 'description' } },
       { path: 'developer/module-permit', component: ModulePermitComponent, data: { title: 'Module Permit', icon: 'admin_panel_settings' } },
+
+      // General module screens
+      { path: 'general/lookup-master', component: LookupMasterComponent, data: { title: 'Lookup Master', icon: 'list' } },
+
+      // Purchase module screens
+      { path: 'purchase/vendor-master', component: VendorMasterComponent, data: { title: 'Vendor Master', icon: 'store' } },
     ],
   },
 
