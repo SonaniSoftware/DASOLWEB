@@ -28,6 +28,7 @@ import { FormMasterComponent } from './developer/form-master/form-master.compone
 import { ProcessTypeComponent } from './developer/process-type/process-type.component';
 import { ProcessStatusComponent } from './developer/process-status/process-status.component';
 import { ProcessMasterComponent } from './developer/process-master/process-master.component';
+import { ProcessPermitComponent } from './developer/process-permit/process-permit.component';
 import { ModulePermitComponent } from './settings/module-permit/module-permit.component';
 import { MenuPermitComponent } from './settings/menu-permit/menu-permit.component';
 import { GridActionsComponent } from './developer/grid-actions.component';
@@ -35,6 +36,8 @@ import { PermitCheckboxComponent } from './developer/permit-checkbox.component';
 import { LookupMasterComponent } from './general/lookup-master/lookup-master.component';
 import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.component';
 import { EmployeeRegisterComponent } from './employee/employee-register/employee-register.component';
+import { BillingDocumentListComponent } from './account/billing-document-list/billing-document-list.component';
+import { BillingDocumentEntryComponent } from './account/billing-document-entry/billing-document-entry.component';
 import { IconPickerComponent } from './developer/icon-picker.component';
 import { TabBarComponent } from './main/tab-bar/tab-bar.component';
 
@@ -58,6 +61,7 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     ProcessTypeComponent,
     ProcessStatusComponent,
     ProcessMasterComponent,
+    ProcessPermitComponent,
     ModulePermitComponent,
     MenuPermitComponent,
     GridActionsComponent,
@@ -65,6 +69,8 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     LookupMasterComponent,
     VendorMasterComponent,
     EmployeeRegisterComponent,
+    BillingDocumentListComponent,
+    BillingDocumentEntryComponent,
     IconPickerComponent,
     TabBarComponent
   ],

@@ -1,0 +1,60 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div class="form-name">
+      <p>Billing Document List</p>
+    </div>
+    <div class="form-head bill-filters">
+      <div class="filter-field">
+        <label class="form-label">From</label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="fromDate" />
+      </div>
+      <div class="filter-field">
+        <label class="form-label">To</label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="toDate" />
+      </div>
+      <button class="btn btn-outline-secondary btn-sm" (click)="refresh()" title="Refresh">
+        <span class="material-icons">refresh</span>
+      </button>
+      <button class="btn btn-outline-secondary btn-sm" (click)="exportCsv()" title="Export to CSV">
+        <span class="material-icons">download</span>
+      </button>
+      <button class="btn btn-primary btn-sm" (click)="newEntry()">
+        <span class="material-icons">add</span> New
+      </button>
+    </div>
+  </div>
+
+  <!-- Body summary -->
+  <div class="bill-summary">
+    <div class="summary-chip total">
+      <span class="chip-label">Total</span>
+      <span class="chip-value">{{ totalCount }}</span>
+    </div>
+    <div class="summary-chip complete">
+      <span class="chip-label">Complete</span>
+      <span class="chip-value">{{ completeCount }}</span>
+    </div>
+    <div class="summary-chip verify">
+      <span class="chip-label">Verify</span>
+      <span class="chip-value">{{ verifyCount }}</span>
+    </div>
+    <div class="summary-chip payment">
+      <span class="chip-label">Payment</span>
+      <span class="chip-value">{{ paymentCount }}</span>
+    </div>
+  </div>
+
+  <ag-grid-angular
+    class="dev-grid"
+    style="width: 100%;"
+    [theme]="theme"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [animateRows]="true"
+    [pagination]="true"
+    [paginationPageSize]="20"
+    (gridReady)="onGridReady($event)"
+    (rowDoubleClicked)="onRowOpen($event)"
+  ></ag-grid-angular>
+</div>

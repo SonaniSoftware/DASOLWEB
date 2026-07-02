@@ -61,6 +61,24 @@ export interface ProcessMasterRow {
   ProcessRemark: string | null;
   ISActive: boolean;
 }
+export interface ProcessPermitRow {
+  TypeID: number;
+  ProcessID: number;
+  StatusID: number;
+  PermitCode: string | null;
+  PermitName: string | null;
+  NProcessID: number | null;
+  NStatusID: number | null;
+  ISFinal: boolean;
+  ISActive: boolean;
+  SerialNo: number | null;
+  // Resolved client-side for the grid:
+  TypeName?: string;
+  ProcessName?: string;
+  StatusName?: string;
+  NProcessName?: string;
+  NStatusName?: string;
+}
 
 interface ApiResponse<T> {
   success: boolean;
@@ -158,5 +176,19 @@ export class DeveloperService {
   }
   deleteProcess(typeId: number, processId: number) {
     return this.http.delete<ApiResponse<unknown>>(`${this.api}/processes/${typeId}/${processId}`);
+  }
+
+  // Process Permit (composite key TypeID + ProcessID + StatusID)
+  listProcessPermits() {
+    return this.get<ProcessPermitRow[]>('/process-permits');
+  }
+  createProcessPermit(body: unknown) {
+    return this.http.post<ApiResponse<unknown>>(`${this.api}/process-permits`, body);
+  }
+  updateProcessPermit(typeId: number, processId: number, statusId: number, body: unknown) {
+    return this.http.put<ApiResponse<unknown>>(`${this.api}/process-permits/${typeId}/${processId}/${statusId}`, body);
+  }
+  deleteProcessPermit(typeId: number, processId: number, statusId: number) {
+    return this.http.delete<ApiResponse<unknown>>(`${this.api}/process-permits/${typeId}/${processId}/${statusId}`);
   }
 }

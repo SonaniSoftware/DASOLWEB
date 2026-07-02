@@ -6,8 +6,10 @@
 
   <!-- Theme picker -->
   <div class="theme-dropdown" (click)="$event.stopPropagation()">
-    <button class="icon-btn" type="button" aria-label="Select theme" [class.active]="themeOpen" (click)="toggleTheme($event)">
+    <button class="theme-btn" type="button" aria-label="Select theme" [class.active]="themeOpen" (click)="toggleTheme($event)">
       <span class="material-icons">palette</span>
+      <span class="theme-btn-label">Themes</span>
+      <span class="material-icons chevron">expand_more</span>
     </button>
 
     @if (themeOpen) {
@@ -23,7 +25,7 @@
             [class.active]="t.id === theme.current().id"
             (click)="selectTheme(t.id)"
           >
-            <span class="swatch" [class.is-dark]="t.mode === 'dark'" [style.background]="t.primary"></span>
+            <span class="swatch" [class.is-dark]="t.mode === 'dark'" [style.background]="t.swatch"></span>
             <span class="theme-name">{{ t.name }}</span>
             <span class="theme-mode">{{ t.mode }}</span>
             @if (t.id === theme.current().id) {

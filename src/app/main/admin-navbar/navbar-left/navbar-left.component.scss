@@ -7,9 +7,9 @@
   align-items: center;
   gap: 8px;
   padding: 1px;
-  background: #f5f7f9;
+  background: var(--bs-tertiary-bg);
   border-radius: 8px;
-  color: #8c8c8c;
+  color: var(--bs-secondary-color);
 
   .material-icons {
     font-size: 20px;
@@ -20,11 +20,11 @@
     background: transparent;
     outline: none;
     font-size: 14px;
-    color: #262626;
+    color: var(--bs-body-color);
     width: 200px;
 
     &::placeholder {
-      color: #8c8c8c;
+      color: var(--bs-secondary-color);
     }
   }
 }

@@ -1,7 +1,7 @@
 /* Global styles */
 
 // ---- Brand overrides (must come BEFORE the Bootstrap import) ----
-$primary: #1677ff;
+$primary: #0e7490;
 $body-bg: #fafafb;
 $body-color: #131523;
 $border-color: #e6ebf1;
@@ -29,8 +29,13 @@ body {
    ===================================================================== */
 
 :root {
-  --app-primary: #1677ff;
-  --app-primary-rgb: 22, 119, 255;
+  --app-primary: #0e7490;
+  --app-primary-rgb: 14, 116, 144;
+}
+
+/* App cards share the primary-tinted border used by .form-name */
+.card {
+  border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.45);
 }
 
 /* Accent color → Bootstrap primary buttons (works in light & dark) */
@@ -46,77 +51,16 @@ body {
   --bs-btn-focus-shadow-rgb: var(--app-primary-rgb);
 }
 
-/* ---- Dark mode: recolor the app shell + common content ----
-   Prefixed with html[...] so these win over component-scoped rules. */
-html[data-bs-theme='dark'] {
-  --bs-body-bg: #0f1115;
-  --bs-body-color: #d6dae0;
-  --bs-border-color: #2a2f3a;
-  --bs-card-bg: #161a20;
-  --bs-card-border-color: #2a2f3a;
-  color-scheme: dark;
-
-  /* Layout surfaces */
-  .pc-container { background: #0f1115; }
-  .pc-content { color: #d6dae0; }
-  .pc-footer { background: #161a20; border-top-color: #2a2f3a; }
-  .pc-header { background: #161a20; border-bottom-color: #2a2f3a; }
-  .btn-toggle { color: #d6dae0; }
-  .btn-toggle:hover { background: #1f2430; }
-
-  /* Search box (navbar-left) */
-  .search-box { background: #1f2430; color: #8a93a3; }
-  .search-input { color: #e6e9ee; }
-
-  /* Sidebar (app-navigation) */
-  app-navigation.pc-sidebar { background: #161a20; border-right-color: #2a2f3a; }
-  .navbar-brand { border-bottom-color: #2a2f3a; }
-  .nav-group + .nav-group { border-top-color: #232833; }
-  .nav-group-label { color: #8a93a3; }
-  .nav-link { color: #c2c9d2; }
-  .nav-link:hover { background: #1f2430; color: #ffffff; }
-  .nav-link.active { background: rgba(var(--app-primary-rgb), 0.16); color: #ffffff; }
-
-  /* Work tabs */
-  .tab-bar { background: #14181e; border-bottom-color: #2a2f3a; }
-  .work-tab { background: #1f2430; border-color: #2a2f3a; color: #c2c9d2; }
-  .work-tab:hover { background: #262c38; }
-  .work-tab.active { background: #161a20; color: var(--app-primary); box-shadow: 0 -2px 0 var(--app-primary) inset; }
-  .tab-closeall { background: #1f2430; border-color: #2a2f3a; color: #c2c9d2; }
-
-  /* Header dropdowns (notifications / theme / user) */
-  .icon-btn { color: #c2c9d2; }
-  .icon-btn:hover, .icon-btn.active { background: #1f2430; }
-  .user-name { color: #e6e9ee; }
-  .dropdown-panel { background: #161a20; border-color: #2a2f3a; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
-  .dropdown-head { border-bottom-color: #2a2f3a; }
-  .dh-name { color: #e6e9ee; }
-  .dropdown-item, .theme-item { color: #c2c9d2; }
-  .dropdown-item:hover, .theme-item:hover { background: #1f2430; }
-  .dropdown-divider { background: #2a2f3a; }
-
-  /* Content: headings, cards, forms */
-  .dev-head { background: #1f2430; border-color: #2a2f3a; }
-  .dev-head h1 { color: #e6e9ee; }
-  .dev-head p,
-  .dev-head .form-name p { color: #e6e9ee; }
-  .card { background: #161a20; border-color: #2a2f3a; }
-  .card .card-body > h6 { color: #e6e9ee; border-bottom-color: #2a2f3a; }
-  .dev-grid { border-color: #2a2f3a; }
-  .grid-card .table thead th { background: #1f2430; color: #e6e9ee; border-bottom-color: #2a2f3a; }
-  .grid-card .table tbody td { color: #d6dae0; border-bottom-color: #2a2f3a; }
-  .form-label { color: #c2c9d2; }
-  .form-control, .form-select {
-    background: #1f2430;
-    border-color: #2a2f3a;
-    color: #d6dae0;
-  }
-  .form-control::placeholder { color: #6b7480; }
-}
+/* Dark mode is now driven entirely by Bootstrap/Bootswatch CSS variables.
+   The app shell + content read --bs-body-bg / --bs-tertiary-bg /
+   --bs-border-color / --bs-secondary-color etc. directly in their component
+   SCSS, so any theme (light or dark) is picked up automatically — no
+   per-theme hardcoded overrides needed here. */
 
 /* AG Grid footer (bottom pagination bar) — Theming API has no param for it */
 .dev-grid .ag-paging-panel {
-  background: #f0f3f8;
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
   min-height: 32px;
   height: 32px;
 }

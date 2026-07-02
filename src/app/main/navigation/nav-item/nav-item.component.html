@@ -1,5 +1,5 @@
 @if (item.type === 'collapse') {
-  <a class="nav-link collapse-toggle" [class.open]="expanded" tabindex="-1" role="treeitem" [attr.aria-expanded]="expanded" [style.paddingLeft.px]="paddingLeft" (click)="toggle()">
+  <a class="nav-link collapse-toggle" [class.open]="expanded" [class.module-head]="depth === 0" tabindex="-1" role="treeitem" [attr.aria-expanded]="expanded" [style.paddingLeft.px]="paddingLeft" (click)="toggle()">
     @if (item.icon) {
       <span class="material-icons nav-icon">{{ item.icon }}</span>
     }

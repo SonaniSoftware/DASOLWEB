@@ -7,7 +7,7 @@
   align-items: center;
   gap: 12px;
   padding: 2px;
-  color: #5b6b79;
+  color: var(--bs-body-color);
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
@@ -17,21 +17,21 @@
     color 0.15s ease;
 
   &:hover {
-    background-color: #f5f7f9;
-    color: #1677ff;
+    background-color: var(--bs-tertiary-bg);
+    color: var(--app-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid #1677ff;
+    outline: 2px solid var(--app-primary);
     outline-offset: -2px;
-    background-color: #eef4ff;
-    color: #1677ff;
+    background-color: var(--bs-tertiary-bg);
+    color: var(--app-primary);
   }
 
   &.active {
-    color: #1677ff;
-    background-color: #e6f0ff;
-    border-left-color: #1677ff;
+    color: var(--app-primary);
+    background-color: rgba(var(--app-primary-rgb), 0.12);
+    border-left-color: var(--app-primary);
     font-weight: 600;
   }
 
@@ -41,7 +41,18 @@
 
     &:hover {
       background-color: transparent;
-      color: #5b6b79;
+      color: var(--bs-body-color);
+    }
+  }
+
+  /* Top-level module headers get a tinted background so they stand out. */
+  &.module-head {
+    background-color: rgba(var(--app-primary-rgb), 0.10);
+    font-weight: 600;
+
+    &:hover {
+      background-color: rgba(var(--app-primary-rgb), 0.16);
+      color: var(--app-primary);
     }
   }
 }

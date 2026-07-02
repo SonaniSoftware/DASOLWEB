@@ -16,8 +16,26 @@ export class TabService {
   // Listeners notified when a tab closes (used to evict its cached component).
   private closeListeners: Array<(url: string) => void> = [];
 
+  // url → { title, icon } registered by the sidebar from each menu's config,
+  // so a tab shows the icon the user picked in Menu Master (not a generic one).
+  private meta = new Map<string, { title: string; icon: string }>();
+
   onClose(fn: (url: string) => void): void {
     this.closeListeners.push(fn);
+  }
+
+  /** Register a menu's title + selected icon for its url (called by the sidebar). */
+  registerMeta(url: string, title: string, icon: string): void {
+    this.meta.set(this.normalize(url), { title, icon });
+  }
+
+  /** Look up a menu's registered title + icon by url. */
+  metaFor(url: string): { title: string; icon: string } | undefined {
+    return this.meta.get(this.normalize(url));
+  }
+
+  private normalize(url: string): string {
+    return url.split('?')[0].replace(/\/+$/, '').toLowerCase();
   }
 
   /** Open (or focus) a tab for a route. */

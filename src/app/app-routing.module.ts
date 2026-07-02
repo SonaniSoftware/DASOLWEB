@@ -13,11 +13,14 @@ import { FormMasterComponent } from './developer/form-master/form-master.compone
 import { ProcessTypeComponent } from './developer/process-type/process-type.component';
 import { ProcessStatusComponent } from './developer/process-status/process-status.component';
 import { ProcessMasterComponent } from './developer/process-master/process-master.component';
+import { ProcessPermitComponent } from './developer/process-permit/process-permit.component';
 import { ModulePermitComponent } from './settings/module-permit/module-permit.component';
 import { MenuPermitComponent } from './settings/menu-permit/menu-permit.component';
 import { LookupMasterComponent } from './general/lookup-master/lookup-master.component';
 import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.component';
 import { EmployeeRegisterComponent } from './employee/employee-register/employee-register.component';
+import { BillingDocumentListComponent } from './account/billing-document-list/billing-document-list.component';
+import { BillingDocumentEntryComponent } from './account/billing-document-entry/billing-document-entry.component';
 import { authGuard, guestGuard } from './core/gaurds/auth.guard';
 
 const routes: Routes = [
@@ -51,6 +54,7 @@ const routes: Routes = [
       { path: 'developer/process-type', component: ProcessTypeComponent, data: { title: 'Process Type', icon: 'category' } },
       { path: 'developer/process-status', component: ProcessStatusComponent, data: { title: 'Process Status', icon: 'flag' } },
       { path: 'developer/process-master', component: ProcessMasterComponent, data: { title: 'Process Master', icon: 'account_tree' } },
+      { path: 'developer/process-permit', component: ProcessPermitComponent, data: { title: 'Process Permit', icon: 'rule' } },
 
       // Settings module screens
       { path: 'settings/module-permit', component: ModulePermitComponent, data: { title: 'Module Permit', icon: 'admin_panel_settings' } },
@@ -64,6 +68,11 @@ const routes: Routes = [
 
       // Employee (HRM) module screens
       { path: 'employee/employee-register', component: EmployeeRegisterComponent, data: { title: 'Employee Register', icon: 'badge' } },
+
+      // Account module screens
+      { path: 'account/billing-document-list', component: BillingDocumentListComponent, data: { title: 'Billing Document List', icon: 'receipt_long' } },
+      { path: 'account/billing-document-entry', component: BillingDocumentEntryComponent, data: { title: 'Billing Document Entry', icon: 'note_add' } },
+      { path: 'account/billing-document-entry/:billId', component: BillingDocumentEntryComponent, data: { title: 'Billing Document Entry', icon: 'note_add' } },
     ],
   },
 

@@ -8,11 +8,13 @@ import { themeMaterial } from 'ag-grid-community';
 export const gridTheme = themeMaterial.withParams({
   rowHeight: 32,
   headerHeight: 32,
-  headerBackgroundColor: '#f0f3f8',
-  headerTextColor: '#344054',
-  rowBorder: { width: 1, color: '#e6ebf1' },          // horizontal lines between rows
-  columnBorder: { width: 1, color: '#e6ebf1' },       // vertical lines between columns
-  headerColumnBorder: { width: 1, color: '#e6ebf1' }, // vertical lines in the header
+  backgroundColor: 'var(--bs-body-bg)',
+  foregroundColor: 'var(--bs-body-color)',
+  headerBackgroundColor: 'var(--bs-tertiary-bg)',
+  headerTextColor: 'var(--bs-emphasis-color)',
+  rowBorder: { width: 1, color: 'var(--bs-border-color)' },          // horizontal lines between rows
+  columnBorder: { width: 1, color: 'var(--bs-border-color)' },       // vertical lines between columns
+  headerColumnBorder: { width: 1, color: 'var(--bs-border-color)' }, // vertical lines in the header
 });
 
 /** Active/Inactive badge HTML for AG Grid cellRenderer. */

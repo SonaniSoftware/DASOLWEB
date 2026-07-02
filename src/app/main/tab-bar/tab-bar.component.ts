@@ -22,7 +22,12 @@ export class TabBarComponent implements OnInit {
         const url = this.router.url.split('?')[0];
         // Skip auth + the transient /modules resolver (it redirects to the real screen).
         if (url.startsWith('/auth') || url === '/' || url.startsWith('/modules')) return;
-        this.tab.open(url, this.resolveTitle(url), this.resolveIcon());
+        // Prefer the menu's registered title/icon (chosen in Menu Master) over
+        // route-derived values, so the tab shows the selected icon.
+        const meta = this.tab.metaFor(url);
+        const title = meta?.title || this.resolveTitle(url);
+        const icon = meta?.icon || this.resolveIcon();
+        this.tab.open(url, title, icon);
       });
   }
 

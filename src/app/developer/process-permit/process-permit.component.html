@@ -1,0 +1,109 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div class="form-name">
+      <p>Process Permit</p>
+    </div>
+    <div class="form-head">
+      <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Permit</button>
+    </div>
+  </div>
+
+  @if (showForm) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="mb-3">{{ editKeys ? 'Edit' : 'New' }} Process Permit</h6>
+        <div class="row g-2">
+          <div class="col-md-3">
+            <label class="form-label">Type *</label>
+            <select class="form-select" [(ngModel)]="model.typeId" [disabled]="!!editKeys" (ngModelChange)="onTypeChange()">
+              <option [ngValue]="0">— Select —</option>
+              @for (t of types; track t.TypeID) {
+                <option [ngValue]="t.TypeID">{{ t.TypeName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Process *</label>
+            <select class="form-select" [(ngModel)]="model.processId" (ngModelChange)="autoFill()" [disabled]="!!editKeys || !model.typeId">
+              <option [ngValue]="0">— Select —</option>
+              @for (p of typeProcesses; track p.ProcessID) {
+                <option [ngValue]="p.ProcessID">{{ p.ProcessName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Status *</label>
+            <select class="form-select" [(ngModel)]="model.statusId" (ngModelChange)="autoFill()" [disabled]="!!editKeys || !model.typeId">
+              <option [ngValue]="0">— Select —</option>
+              @for (s of typeStatuses; track s.StatusID) {
+                <option [ngValue]="s.StatusID">{{ s.StatusName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Serial No</label>
+            <input type="number" class="form-control" [(ngModel)]="model.serialNo" />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Permit Code</label>
+            <input class="form-control" [(ngModel)]="model.permitCode" maxlength="50" readonly />
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Permit Name</label>
+            <input class="form-control" [(ngModel)]="model.permitName" maxlength="200" readonly />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Next Process {{ model.isFinal ? '' : '*' }}</label>
+            <select class="form-select" [(ngModel)]="model.nProcessId" (ngModelChange)="autoFill()" [disabled]="model.isFinal || !model.typeId">
+              <option [ngValue]="null">— Select —</option>
+              @for (p of typeProcesses; track p.ProcessID) {
+                <option [ngValue]="p.ProcessID">{{ p.ProcessName }}</option>
+              }
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Next Status</label>
+            <select class="form-select" [(ngModel)]="model.nStatusId" [disabled]="model.isFinal || !model.typeId">
+              <option [ngValue]="null">— Select —</option>
+              @for (s of typeStatuses; track s.StatusID) {
+                <option [ngValue]="s.StatusID">{{ s.StatusName }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-2 d-flex align-items-end">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="ppFinal" [(ngModel)]="model.isFinal" (ngModelChange)="onFinalChange()" />
+              <label class="form-check-label" for="ppFinal">Final step</label>
+            </div>
+          </div>
+          <div class="col-md-2 d-flex align-items-end">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="ppActive" [(ngModel)]="model.isActive" />
+              <label class="form-check-label" for="ppActive">Active</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-primary" (click)="save()">Save</button>
+          <button class="btn btn-light" (click)="showForm = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <ag-grid-angular
+    class="dev-grid"
+    style="width: 100%;"
+    [theme]="theme"
+    [rowData]="rows"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [context]="context"
+    [animateRows]="true"
+    [pagination]="true"
+    [paginationPageSize]="20"
+  ></ag-grid-angular>
+</div>

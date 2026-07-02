@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { NavigationItem } from './navigation-items';
 import { MenuRef, ModuleService, PermittedGroup } from '../../core/services/module.service';
 import { iconForCode, iconForTab, titleCase } from '../../modules/module-groups';
+import { TabService } from '../../core/services/tab.service';
 
 @Component({
   selector: 'app-navigation',
@@ -17,6 +18,7 @@ export class NavigationComponent implements OnInit {
 
   private moduleApi = inject(ModuleService);
   private host = inject(ElementRef<HTMLElement>);
+  private tabs = inject(TabService);
 
   loading = true;
   navigationItems: NavigationItem[] = [];
@@ -40,6 +42,7 @@ export class NavigationComponent implements OnInit {
         ],
       },
     ];
+    this.tabs.registerMeta('/dashboard/default', 'Dashboard', 'dashboard');
 
     // Modules (STT_ModulePermit) + menus (STT_MenuPermit), both per-user via SPs.
     forkJoin({ groups: this.moduleApi.getMyGroups(), menus: this.moduleApi.getMyMenus() }).subscribe({
@@ -79,14 +82,15 @@ export class NavigationComponent implements OnInit {
       icon: iconForTab(tab),
       children: myMenus
         .filter((m) => (m.menuTab || 'General') === tab)
-        .map((m) => ({
-          id: `${code}-${m.menuId}`,
-          title: titleCase(m.menuName),
-          type: 'item' as const,
+        .map((m) => {
+          const title = titleCase(m.menuName);
           // Menu opens its own screen (RoutePath) when set; else its forms.
-          url: m.routePath ? m.routePath.toLowerCase() : `/modules/${code}/${m.menuId}`,
-          icon: m.icon || 'description',
-        })),
+          const url = m.routePath ? m.routePath.toLowerCase() : `/modules/${code}/${m.menuId}`;
+          const icon = m.icon || 'description';
+          // Make the tab bar show this menu's selected icon (not a generic one).
+          this.tabs.registerMeta(url, title, icon);
+          return { id: `${code}-${m.menuId}`, title, type: 'item' as const, url, icon };
+        }),
     }));
 
     return {

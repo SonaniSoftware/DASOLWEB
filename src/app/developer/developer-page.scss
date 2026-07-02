@@ -20,20 +20,19 @@
   gap: 1px;
   margin-bottom: 0;
   padding: 0;
-  border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.25);
-  background: rgba(var(--app-primary-rgb, 22, 119, 255), 0.1);
-  border-radius: 10px;
+  border: none;
+  background: transparent;
 
   h1 {
     font-size: 22px;
     font-weight: 700;
-    color: #101828;
+    color: var(--bs-emphasis-color);
     margin: 0;
   }
 
   p {
     font-size: 13px;
-    color: #667085;
+    color: var(--bs-secondary-color);
     margin: 2px 0 0;
   }
 
@@ -48,15 +47,15 @@
     text-align: center;
     padding: 0;
     margin: 0;
-    border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.25);
+    border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.45);
     border-radius: 8px;
-    background: #fff;
+    background: var(--bs-body-bg);
 
     p {
       margin: 0;
       font-size: 13px;
       font-weight: 600;
-      color: #344054;
+      color: var(--bs-body-color);
     }
   }
 
@@ -66,15 +65,15 @@
     justify-content: flex-end;
     gap: 8px;
     padding: 6px 12px;
-    border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.25);
+    border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.45);
     border-radius: 8px;
-    background: #fff;
+    background: var(--bs-body-bg);
   }
 }
 
 /* Edit/New form card */
 .card {
-  border: 1px solid #e6ebf1;
+  border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.45);
   border-radius: 12px;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 
@@ -84,10 +83,10 @@
     > h6 {
       font-size: 15px;
       font-weight: 600;
-      color: #101828;
+      color: var(--bs-emphasis-color);
       padding-bottom: 1px;
       margin-bottom: 16px;
-      border-bottom: 1px solid #f0f3f8;
+      border-bottom: 1px solid var(--bs-border-color);
     }
   }
 }
@@ -95,25 +94,24 @@
 .form-label {
   font-size: 12.5px;
   font-weight: 600;
-  color: #475467;
+  color: var(--bs-secondary-color);
   margin-bottom: 5px;
 }
 
 .form-control,
 .form-select {
   border-radius: 8px;
-  border-color: #d0d5dd;
   font-size: 14px;
 
   &:focus {
-    border-color: #1677ff;
-    box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.12);
+    border-color: var(--app-primary);
+    box-shadow: 0 0 0 3px rgba(var(--app-primary-rgb, 22, 119, 255), 0.12);
   }
 }
 
 .form-check-label {
   font-size: 14px;
-  color: #344054;
+  color: var(--bs-body-color);
 }
 
 /* AG Grid wrapper — grows to fill the remaining height, but never
@@ -125,7 +123,7 @@
      the viewport below the navbar/tab-bar/header; floors on small screens. */
   height: calc(100vh - 210px);
   min-height: 320px;
-  border: 1px solid #e6ebf1;
+  border: 1px solid var(--bs-border-color);
   /* Module Permit has a user-filter card above the grid → more offset */
   &.permit-grid {
     height: calc(100vh - 300px);
@@ -159,19 +157,19 @@
       position: sticky;
       top: 0;
       z-index: 1;
-      background: #f0f3f8;
-      color: #344054;
+      background: var(--bs-tertiary-bg);
+      color: var(--bs-emphasis-color);
       font-weight: 600;
       font-size: 13px;
       padding: 8px 12px;
-      border-bottom: 1px solid #e6ebf1;
+      border-bottom: 1px solid var(--bs-border-color);
     }
 
     tbody td {
       padding: 8px 12px;
       font-size: 14px;
       vertical-align: middle;
-      border-bottom: 1px solid #f0f3f8;
+      border-bottom: 1px solid var(--bs-border-color);
     }
   }
 }
