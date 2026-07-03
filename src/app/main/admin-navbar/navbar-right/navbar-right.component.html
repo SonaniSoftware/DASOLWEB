@@ -55,7 +55,27 @@
             <div class="dh-email">{{ user?.email }}</div>
           }
         </div>
-        <a class="dropdown-item" href="javascript:void(0)">
+
+        <div class="device-info">
+          <div class="di-title"><span class="material-icons">devices</span> Device Info</div>
+          <div class="di-row"><span>IP Address</span><span>{{ ipAddress }}</span></div>
+          <div class="di-row"><span>Device ID</span><span class="di-mono" [title]="device.deviceId">{{ device.deviceId }}</span></div>
+          <div class="di-row"><span>Browser</span><span>{{ device.browser }}</span></div>
+          <div class="di-row"><span>OS</span><span>{{ device.os }}</span></div>
+          <div class="di-row"><span>Device</span><span>{{ device.device }}</span></div>
+          <div class="di-row"><span>Platform</span><span>{{ device.platform }}</span></div>
+          <div class="di-row"><span>Screen</span><span>{{ device.screen }}</span></div>
+          <div class="di-row"><span>Language</span><span>{{ device.language }}</span></div>
+          <div class="di-row">
+            <span>Status</span>
+            <span [class.text-success]="device.online" [class.text-danger]="!device.online">
+              {{ device.online ? 'Online' : 'Offline' }}
+            </span>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+
+        <a class="dropdown-item" routerLink="/profile" (click)="open = false">
           <span class="material-icons">person</span> Profile
         </a>
         <a class="dropdown-item" href="javascript:void(0)">

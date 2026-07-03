@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { DeviceInfoService } from './device-info.service';
 
 export interface User {
   userId: number;
@@ -58,6 +59,7 @@ export interface ApiResponse<T> {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private deviceInfo = inject(DeviceInfoService);
 
   private readonly apiUrl = `${environment.apiUrl}/auth`;
 
@@ -73,6 +75,8 @@ export class AuthService {
           if (response.success) {
             this.setSession(response.data);
             this.currentUserSubject.next(response.data.user);
+            // Capture the login-time device + IPv4 snapshot for the profile.
+            this.deviceInfo.captureLogin();
           }
         }),
       );

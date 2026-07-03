@@ -26,19 +26,19 @@
 
   <!-- Body summary -->
   <div class="bill-summary">
-    <div class="summary-chip total">
+    <div class="summary-chip total" [class.active]="activeStatus === null" (click)="filterBy(null)">
       <span class="chip-label">Total</span>
       <span class="chip-value">{{ totalCount }}</span>
     </div>
-    <div class="summary-chip complete">
+    <div class="summary-chip complete" [class.active]="activeStatus === 'COMPLETE'" (click)="filterBy('COMPLETE')">
       <span class="chip-label">Complete</span>
       <span class="chip-value">{{ completeCount }}</span>
     </div>
-    <div class="summary-chip verify">
-      <span class="chip-label">Verify</span>
-      <span class="chip-value">{{ verifyCount }}</span>
+    <div class="summary-chip verify" [class.active]="activeStatus === 'CONFIRM'" (click)="filterBy('CONFIRM')">
+      <span class="chip-label">Confirm</span>
+      <span class="chip-value">{{ confirmCount }}</span>
     </div>
-    <div class="summary-chip payment">
+    <div class="summary-chip payment" [class.active]="activeStatus === 'PAYMENT'" (click)="filterBy('PAYMENT')">
       <span class="chip-label">Payment</span>
       <span class="chip-value">{{ paymentCount }}</span>
     </div>
@@ -51,6 +51,8 @@
     [rowData]="rows"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
+    [context]="context"
+    [headerHeight]="headerHeight"
     [animateRows]="true"
     [pagination]="true"
     [paginationPageSize]="20"

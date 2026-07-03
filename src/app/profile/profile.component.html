@@ -1,0 +1,50 @@
+<div class="dev-page">
+  <div class="dev-head">
+    <div class="form-name">
+      <p>My Profile</p>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <!-- Account -->
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="mb-3">Account</h6>
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="prof-avatar">{{ initials }}</span>
+            <div>
+              <div class="fw-semibold">{{ displayName }}</div>
+              <div class="text-muted small">{{ user?.email }}</div>
+            </div>
+          </div>
+          <dl class="prof-list mb-0">
+            <div><dt>Username</dt><dd>{{ user?.username || '—' }}</dd></div>
+            <div><dt>Employee Code</dt><dd>{{ user?.employeeCode || '—' }}</dd></div>
+            <div><dt>Company</dt><dd>{{ user?.companyName || '—' }}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login device -->
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="mb-3">Login Device</h6>
+          <dl class="prof-list mb-0">
+            <div><dt>IPv4 Address</dt><dd>{{ login?.ip || 'Resolving…' }}</dd></div>
+            <div><dt>Logged In</dt><dd>{{ loginAt }}</dd></div>
+            <div><dt>Device ID</dt><dd class="mono" [title]="login?.deviceId || device.deviceId">{{ login?.deviceId || device.deviceId }}</dd></div>
+            <div><dt>Browser</dt><dd>{{ login?.browser || device.browser }}</dd></div>
+            <div><dt>OS</dt><dd>{{ login?.os || device.os }}</dd></div>
+            <div><dt>Device</dt><dd>{{ login?.device || device.device }}</dd></div>
+            <div><dt>Platform</dt><dd>{{ login?.platform || device.platform }}</dd></div>
+            <div><dt>Screen</dt><dd>{{ login?.screen || device.screen }}</dd></div>
+            <div><dt>Language</dt><dd>{{ login?.language || device.language }}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

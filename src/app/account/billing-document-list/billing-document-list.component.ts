@@ -1,9 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ColDef, GridApi, GridReadyEvent, ICellRendererParams, RowDoubleClickedEvent, ValueFormatterParams } from 'ag-grid-community';
+import { ColDef, GridApi, GridReadyEvent, RowDoubleClickedEvent, ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
 import { AccountService, BillingDocumentRow } from '../../core/services/account.service';
+import { GeneralService, ComboItem } from '../../core/services/general.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { gridTheme } from '../../developer/grid-shared';
+import { PayRequestButtonComponent } from '../pay-request-button.component';
 
 @Component({
   selector: 'app-billing-document-list',
@@ -13,42 +15,86 @@ import { gridTheme } from '../../developer/grid-shared';
 })
 export class BillingDocumentListComponent implements OnInit {
   private api = inject(AccountService);
+  private general = inject(GeneralService);
   private notify = inject(NotificationService);
   private router = inject(Router);
 
+  /** Full result set (drives the summary counts). */
+  private allRows: BillingDocumentRow[] = [];
+  /** Rows shown in the grid (allRows filtered by the active status chip). */
   rows: BillingDocumentRow[] = [];
+  /** Active ProcessStatus filter from the chips; null = show all (Total). */
+  activeStatus: string | null = null;
   loading = false;
 
   // Date-range filter (yyyy-MM-dd, bound to <input type="date">).
   fromDate = '';
   toDate = '';
 
+  // GEN_FillCombo id -> name maps for Division / Warehouse columns.
+  private divisionMap = new Map<number, string>();
+  private warehouseMap = new Map<number, string>();
+
   private gridApi?: GridApi;
 
   readonly theme = gridTheme;
-  readonly defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, flex: 1 };
+  readonly context = { componentParent: this };
+  // Fixed widths per column (below); no flex. Header text wraps onto 2 lines.
+  readonly defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, wrapHeaderText: true };
+  /** Header row height — taller so wrapped headers fit two lines. */
+  readonly headerHeight = 50;
   readonly columnDefs: ColDef[] = [
-    {
-      headerName: 'Status', field: 'BillStatus', maxWidth: 130, flex: 0,
-      cellRenderer: (p: ICellRendererParams) => this.statusBadge(p.value),
-    },
-    { headerName: 'Bill #', field: 'Bill_ID', maxWidth: 100, flex: 0 },
-    { headerName: 'Invoice No', field: 'InvoiceNo', maxWidth: 150 },
-    { headerName: 'Invoice Date', field: 'InvoiceDate', maxWidth: 140, valueFormatter: this.dateFmt },
-    { headerName: 'Vendor', field: 'VendorName' },
-    { headerName: 'Item', field: 'ItemName' },
-    { headerName: 'Qty', field: 'ItemQty', maxWidth: 100, flex: 0, valueFormatter: this.numFmt },
-    { headerName: 'Taxable', field: 'TaxableAmt', maxWidth: 130, flex: 0, valueFormatter: this.numFmt },
-    { headerName: 'GST', field: 'GSTAmt', maxWidth: 120, flex: 0, valueFormatter: this.numFmt },
-    { headerName: 'Payable', field: 'TotalPayable', maxWidth: 140, flex: 0, valueFormatter: this.numFmt },
-    { headerName: 'Payment', field: 'TotalPayment', maxWidth: 140, flex: 0, valueFormatter: this.numFmt },
-    { headerName: 'Verify', field: 'ISVerify', maxWidth: 100, flex: 0, valueFormatter: this.yesNo },
-    { headerName: 'Payment?', field: 'ISPayment', maxWidth: 110, flex: 0, valueFormatter: this.yesNo },
-    { headerName: 'Confirm', field: 'ISConfirm', maxWidth: 110, flex: 0, valueFormatter: this.yesNo },
-    { headerName: 'Entry Date', field: 'EntryDate', maxWidth: 140, valueFormatter: this.dateFmt },
+    { headerName: 'Pay Request', pinned: 'left', width: 80, sortable: false, filter: false, resizable: false, cellRenderer: PayRequestButtonComponent },
+    { headerName: 'Status', field: 'ProcessStatus', hide: true },
+    { headerName: 'Bill #', field: 'BillingID', hide: true },
+    { headerName: 'Company', field: 'CompanyID', hide: true },
+    { headerName: 'Employee', field: 'EmployeeID', hide: true },
+    { headerName: 'Division', field: 'DivisionID', width: 100, valueGetter: (p: ValueGetterParams) => this.divisionMap.get(p.data?.DivisionID) ?? p.data?.DivisionID ?? '' },
+    { headerName: 'Warehouse', field: 'WarehouseID', width: 100, valueGetter: (p: ValueGetterParams) => this.warehouseMap.get(p.data?.WarehouseID) ?? p.data?.WarehouseID ?? '' },
+    { headerName: 'Bill Type', field: 'BillingType', width: 100 },
+    { headerName: 'Fin. Year', field: 'FinancialYear', width: 100 },
+    { headerName: 'Billing No', field: 'BillingNo', width: 100 },
+    { headerName: 'Billing Date', field: 'BillingDate', width: 100, valueFormatter: this.dateFmt },
+    { headerName: 'Party', field: 'PartyID', hide: true },
+    { headerName: 'Party Name', field: 'PartyName', width: 300 },
+    { headerName: 'Reference No', field: 'ReferenceNo', width: 100 },
+    { headerName: 'Reference Date', field: 'ReferenceDate', width: 100, valueFormatter: this.dateFmt },
+    { headerName: 'Curr', field: 'CurrencyCode', width: 50 },
+    { headerName: 'Rate', field: 'ExchangeRate', width: 50, valueFormatter: this.numFmt },
+    { headerName: 'Days', field: 'TermsDays', width: 50 },
+    { headerName: 'Due Date', field: 'DueDate', width: 100, valueFormatter: this.dateFmt },
+    { headerName: 'Total Qty', field: 'TotalQty', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Free Qty', field: 'TotalFreeQty', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Gross Amt', field: 'GrossAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Disc %', field: 'DiscountPersent', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Disc Amt', field: 'DiscountAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Taxable Amt', field: 'TaxableAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'CGST Amt', field: 'CGSTAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'SGST Amt', field: 'SGSTAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'IGST Amt', field: 'IGSTAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'CESS Amt', field: 'CESSAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Tax Amt', field: 'TaxAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Other Charge', field: 'OtherCharge', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Freight Amt', field: 'FreightAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Packing Amt', field: 'PackingAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Net Amt', field: 'NetAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Round Off', field: 'RoundOff', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Payment Amt', field: 'PaymentAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Pay Term', field: 'PaymentTerm', width: 50 },
+    { headerName: 'Pay Status', field: 'PaymentStatus', hide: true },
+    { headerName: 'Billing Address', field: 'BillingAddress', hide: true },
+    { headerName: 'Shipping Address', field: 'ShippingAddress', hide: true },
+    { headerName: 'Narration', field: 'Narration', hide: true },
+    { headerName: 'Remarks', field: 'Remarks', hide: true },
+    { headerName: 'Confirm', field: 'ISConfirm', width: 50, valueFormatter: this.yesNo },
+    { headerName: 'Approve', field: 'ISApprove', width: 50, valueFormatter: this.yesNo },
+    { headerName: 'Payment', field: 'ISPayment', width: 50, valueFormatter: this.yesNo },
+    { headerName: 'Cancel', field: 'ISCancel', width: 50, valueFormatter: this.yesNo },
+    { headerName: 'Entry Date', field: 'EntryDate', width: 100, valueFormatter: this.dateFmt },
   ];
 
   ngOnInit(): void {
+    this.loadCombos();
     this.load();
   }
 
@@ -56,12 +102,42 @@ export class BillingDocumentListComponent implements OnInit {
     this.gridApi = e.api;
   }
 
+  /** Load Division/Warehouse combo values for the lookup columns. */
+  private loadCombos(): void {
+    this.general.getFillCombo('DIVISION').subscribe({
+      next: (d) => { this.divisionMap = this.toMap(d); this.gridApi?.refreshCells({ force: true }); },
+      error: () => { /* keep raw ids if combo unavailable */ },
+    });
+    this.general.getFillCombo('WAREHOUSE').subscribe({
+      next: (w) => { this.warehouseMap = this.toMap(w); this.gridApi?.refreshCells({ force: true }); },
+      error: () => { /* keep raw ids if combo unavailable */ },
+    });
+  }
+
+  private toMap(items: ComboItem[]): Map<number, string> {
+    const m = new Map<number, string>();
+    (items ?? []).forEach((i) => m.set(i.id, i.name));
+    return m;
+  }
+
   load(): void {
     this.loading = true;
     this.api.listBillingDocuments(this.fromDate || undefined, this.toDate || undefined).subscribe({
-      next: (r) => { this.rows = r; this.loading = false; },
+      next: (r) => { this.allRows = r; this.applyFilter(); this.loading = false; },
       error: (e) => { this.loading = false; this.notify.error(e?.error?.message ?? 'Failed to load billing documents.'); },
     });
+  }
+
+  /** Filter the grid by a ProcessStatus (or null to clear, for the Total chip). */
+  filterBy(status: string | null): void {
+    this.activeStatus = status;
+    this.applyFilter();
+  }
+
+  private applyFilter(): void {
+    this.rows = this.activeStatus
+      ? this.allRows.filter((r) => r.ProcessStatus === this.activeStatus)
+      : this.allRows;
   }
 
   refresh(): void {
@@ -80,7 +156,7 @@ export class BillingDocumentListComponent implements OnInit {
 
   /** Double-click a row -> open that bill in the entry page. */
   onRowOpen(e: RowDoubleClickedEvent<BillingDocumentRow>): void {
-    if (e.data?.Bill_ID != null) this.open(e.data.Bill_ID);
+    if (e.data?.BillingID != null) this.open(e.data.BillingID);
   }
 
   /** Open the entry page for a specific bill. */
@@ -88,20 +164,23 @@ export class BillingDocumentListComponent implements OnInit {
     this.router.navigateByUrl(`/account/billing-document-entry/${billId}`);
   }
 
-  // ---- Body summary counts ----
-  get totalCount(): number { return this.rows.length; }
-  get completeCount(): number { return this.rows.filter((r) => r.BillStatus === 'COMPLETE').length; }
-  get verifyCount(): number { return this.rows.filter((r) => !!r.ISVerify).length; }
-  get paymentCount(): number { return this.rows.filter((r) => !!r.ISPayment).length; }
+  /** PaymentRequest button — block if already confirmed, else go to the request entry page. */
+  paymentRequest(row: BillingDocumentRow): void {
+    if (row?.ISConfirm) {
+      this.notify.warning('Already in request.');
+      return;
+    }
+    this.router.navigateByUrl(`/account/payment-request-entry/${row.BillingID}`);
+  }
 
-  private statusBadge(value: string): string {
-    const map: Record<string, string> = {
-      COMPLETE: 'bg-success-subtle text-success',
-      PENDING: 'bg-warning-subtle text-warning',
-      INVALID: 'bg-danger-subtle text-danger',
-    };
-    const cls = map[value] ?? 'bg-secondary-subtle text-secondary';
-    return `<span class="badge ${cls}">${value ?? ''}</span>`;
+  // ---- Body summary counts (by ProcessStatus field, over the full result set) ----
+  get totalCount(): number { return this.allRows.length; }
+  get completeCount(): number { return this.countByStatus('COMPLETE'); }
+  get confirmCount(): number { return this.countByStatus('CONFIRM'); }
+  get paymentCount(): number { return this.countByStatus('PAYMENT'); }
+
+  private countByStatus(status: string): number {
+    return this.allRows.filter((r) => r.ProcessStatus === status).length;
   }
 
   private dateFmt(p: ValueFormatterParams): string {

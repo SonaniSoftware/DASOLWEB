@@ -21,6 +21,8 @@ import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.co
 import { EmployeeRegisterComponent } from './employee/employee-register/employee-register.component';
 import { BillingDocumentListComponent } from './account/billing-document-list/billing-document-list.component';
 import { BillingDocumentEntryComponent } from './account/billing-document-entry/billing-document-entry.component';
+import { PaymentRequestEntryComponent } from './account/payment-request-entry/payment-request-entry.component';
+import { ProfileComponent } from './profile/profile.component';
 import { authGuard, guestGuard } from './core/gaurds/auth.guard';
 
 const routes: Routes = [
@@ -44,6 +46,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard/default', pathMatch: 'full' },
       { path: 'dashboard/default', component: MainDashboardComponent, data: { title: 'Dashboard', icon: 'dashboard' } },
+      { path: 'profile', component: ProfileComponent, data: { title: 'My Profile', icon: 'person' } },
       { path: 'modules/:code', component: ModuleGroupComponent },
       { path: 'modules/:code/:menuId', component: ModuleGroupComponent },
 
@@ -73,6 +76,8 @@ const routes: Routes = [
       { path: 'account/billing-document-list', component: BillingDocumentListComponent, data: { title: 'Billing Document List', icon: 'receipt_long' } },
       { path: 'account/billing-document-entry', component: BillingDocumentEntryComponent, data: { title: 'Billing Document Entry', icon: 'note_add' } },
       { path: 'account/billing-document-entry/:billId', component: BillingDocumentEntryComponent, data: { title: 'Billing Document Entry', icon: 'note_add' } },
+      { path: 'account/payment-request-entry', component: PaymentRequestEntryComponent, data: { title: 'Payment Request Entry', icon: 'request_quote' } },
+      { path: 'account/payment-request-entry/:billId', component: PaymentRequestEntryComponent, data: { title: 'Payment Request Entry', icon: 'request_quote' } },
     ],
   },
 

@@ -4,34 +4,53 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
-/** Row shape returned by ACC_BillingMaster_GetData (key columns used in the list). */
+/** Row shape returned by ACC_BillingMaster_GetData (header-level billing columns). */
 export interface BillingDocumentRow {
-  BillStatus: string; // PENDING | COMPLETE | INVALID
-  Bill_ID: number;
-  Detail_ID: number;
-  Location_ID: number | null;
-  BillType: string | null;
-  Vendor_ID: number | null;
-  VendorName: string | null;
-  InvoiceNo: string | null;
-  InvoiceDate: string | null;
-  ChallanNo: string | null;
-  ChallanDate: string | null;
-  Item_ID: number | null;
-  ItemName: string | null;
-  HSNCode: string | null;
-  ItemQty: number | null;
-  TaxableAmt: number | null;
-  GSTAmt: number | null;
-  NetAmt: number | null;
-  TotalNetAmt: number | null;
-  PayableAmt: number | null;
-  TotalPayable: number | null;
-  TotalPayment: number | null;
-  ISVerify: boolean | number | null;
-  ISPayment: boolean | number | null;
+  ProcessStatus: string; // CONFIRM | PAYMENT | COMPLETE | INVALID
+  BillingID: number;
+  CompanyID: number | null;
+  EmployeeID: number | null;
+  DivisionID: number | null;
+  WarehouseID: number | null;
+  BillingType: string | null;
+  FinancialYear: string | null;
+  BillingNo: string | null;
+  BillingDate: string | null;
+  PartyID: number | null;
+  PartyName: string | null;
+  ReferenceNo: string | null;
+  ReferenceDate: string | null;
+  CurrencyCode: string | null;
+  ExchangeRate: number | null;
+  TermsDays: number | null;
+  DueDate: string | null;
+  TotalQty: number | null;
+  TotalFreeQty: number | null;
+  GrossAmount: number | null;
+  DiscountPersent: number | null;
+  DiscountAmount: number | null;
+  TaxableAmount: number | null;
+  CGSTAmount: number | null;
+  SGSTAmount: number | null;
+  IGSTAmount: number | null;
+  CESSAmount: number | null;
+  TaxAmount: number | null;
+  OtherCharge: number | null;
+  FreightAmount: number | null;
+  PackingAmount: number | null;
+  NetAmount: number | null;
+  RoundOff: number | null;
+  PaymentAmount: number | null;
+  PaymentTerm: string | null;
+  PaymentStatus: string | null;
+  BillingAddress: string | null;
+  ShippingAddress: string | null;
+  Narration: string | null;
+  Remarks: string | null;
   ISConfirm: boolean | number | null;
-  BillDueDate: string | null;
+  ISApprove: boolean | number | null;
+  ISPayment: boolean | number | null;
+  ISCancel: boolean | number | null;
   EntryDate: string | null;
 }
 

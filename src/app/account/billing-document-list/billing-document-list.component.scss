@@ -1,16 +1,25 @@
-/* Date-range filter + action buttons in the page header */
+/* Date-range filter + action buttons in the page header (one line) */
 .bill-filters {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   flex-wrap: wrap;
 
+  /* "From [date] To [date]" inline, left-aligned */
   .filter-field {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
 
     .form-label {
-      margin-bottom: 2px;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+
+    .form-control {
+      width: auto;
     }
   }
 
@@ -19,24 +28,44 @@
     line-height: 1;
     vertical-align: middle;
   }
+
+  /* Push the action buttons to the right; filters stay on the left. */
+  .btn:first-of-type {
+    margin-left: auto;
+  }
+}
+
+/* Grid height. */
+.dev-grid {
+  height: calc(100vh - 210px - 20px);
 }
 
 /* Body summary chips: Total / Complete / Verify / Payment */
 .bill-summary {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin: 12px 0;
+  gap: 5px;
+  margin: 2px 0;
 
   .summary-chip {
     display: flex;
     flex-direction: column;
     min-width: 120px;
-    padding: 10px 14px;
+    padding: 1px 1px;
     border: 1px solid var(--bs-border-color);
     border-radius: 12px;
     background: var(--bs-body-bg);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      background: var(--bs-tertiary-bg);
+    }
+
+    &.active {
+      box-shadow: 0 0 0 2px var(--app-primary) inset;
+    }
 
     .chip-label {
       font-size: 12px;
@@ -53,9 +82,9 @@
     }
 
     /* Accent left edge per category */
-    &.total { border-left: 4px solid var(--app-primary); }
-    &.complete { border-left: 4px solid var(--bs-success); }
-    &.verify { border-left: 4px solid var(--bs-info, #0dcaf0); }
-    &.payment { border-left: 4px solid var(--bs-warning); }
+    &.total { border-left: 7px solid var(--app-primary); }
+    &.complete { border-left: 7px solid var(--bs-success); }
+    &.verify { border-left: 7px solid var(--bs-info, #0dcaf0); }
+    &.payment { border-left: 7px solid var(--bs-warning); }
   }
 }

@@ -38,6 +38,9 @@ import { VendorMasterComponent } from './purchase/vendor-master/vendor-master.co
 import { EmployeeRegisterComponent } from './employee/employee-register/employee-register.component';
 import { BillingDocumentListComponent } from './account/billing-document-list/billing-document-list.component';
 import { BillingDocumentEntryComponent } from './account/billing-document-entry/billing-document-entry.component';
+import { PayRequestButtonComponent } from './account/pay-request-button.component';
+import { PaymentRequestEntryComponent } from './account/payment-request-entry/payment-request-entry.component';
+import { ProfileComponent } from './profile/profile.component';
 import { IconPickerComponent } from './developer/icon-picker.component';
 import { TabBarComponent } from './main/tab-bar/tab-bar.component';
 
@@ -71,6 +74,9 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     EmployeeRegisterComponent,
     BillingDocumentListComponent,
     BillingDocumentEntryComponent,
+    PayRequestButtonComponent,
+    PaymentRequestEntryComponent,
+    ProfileComponent,
     IconPickerComponent,
     TabBarComponent
   ],

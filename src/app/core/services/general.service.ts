@@ -17,6 +17,11 @@ interface ApiResponse<T> {
   data: T;
 }
 
+export interface ComboItem {
+  id: number;
+  name: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class GeneralService {
   private http = inject(HttpClient);
@@ -26,9 +31,17 @@ export class GeneralService {
     return this.http.get<ApiResponse<T>>(`${this.api}${path}`).pipe(map((r) => r.data));
   }
 
+  /** GEN_FillCombo values (id/name) for a type, e.g. DIVISION, WAREHOUSE. */
+  getFillCombo(type: string) {
+    return this.get<ComboItem[]>(`/fillcombo?type=${encodeURIComponent(type)}`);
+  }
+
   // Lookup Master
   listLookups() {
     return this.get<LookupRow[]>('/lookups');
+  }
+  getLookup(type: string, id: number) {
+    return this.get<LookupRow>(`/lookups/${encodeURIComponent(type)}/${id}`);
   }
   createLookup(body: unknown) {
     return this.http.post<ApiResponse<unknown>>(`${this.api}/lookups`, body);

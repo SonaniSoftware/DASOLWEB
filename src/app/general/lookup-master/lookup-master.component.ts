@@ -55,6 +55,14 @@ export class LookupMasterComponent implements OnInit {
 
   edit(row: LookupRow): void {
     this.editKey = { type: row.LookupType, id: row.LookupID };
+    // Load the latest record by id (GEN_LookupMaster_DataById); fall back to the grid row.
+    this.gen.getLookup(row.LookupType, row.LookupID).subscribe({
+      next: (r) => { this.fillForm(r ?? row); },
+      error: () => { this.fillForm(row); },
+    });
+  }
+
+  private fillForm(row: LookupRow): void {
     this.model = {
       lookupType: row.LookupType,
       lookupCode: row.LookupCode ?? '',

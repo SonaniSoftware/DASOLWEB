@@ -15,6 +15,9 @@ export class TabBarComponent implements OnInit {
   private route = inject(ActivatedRoute);
   tab = inject(TabService);
 
+  /** True until the first in-app navigation after a page load / browser refresh. */
+  private firstNav = true;
+
   ngOnInit(): void {
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -22,6 +25,9 @@ export class TabBarComponent implements OnInit {
         const url = this.router.url.split('?')[0];
         // Skip auth + the transient /modules resolver (it redirects to the real screen).
         if (url.startsWith('/auth') || url === '/' || url.startsWith('/modules')) return;
+        // On browser refresh, don't re-open a tab for the landing page — keep the
+        // tab bar hidden until the user navigates somewhere.
+        if (this.firstNav) { this.firstNav = false; return; }
         // Prefer the menu's registered title/icon (chosen in Menu Master) over
         // route-derived values, so the tab shows the selected icon.
         const meta = this.tab.metaFor(url);

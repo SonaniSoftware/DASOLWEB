@@ -6,7 +6,7 @@ import { themeMaterial } from 'ag-grid-community';
  * height/background is set globally in styles.scss (no theme param for it).
  */
 export const gridTheme = themeMaterial.withParams({
-  rowHeight: 32,
+  rowHeight: 30,
   headerHeight: 32,
   backgroundColor: 'var(--bs-body-bg)',
   foregroundColor: 'var(--bs-body-color)',
