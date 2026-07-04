@@ -15,6 +15,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AdminLayoutComponent } from './main/admin-layout/admin-layout.component';
 import { GuestLayoutComponent } from './main/guest-layout/guest-layout.component';
+import { GuestHomeLayoutComponent } from './main/guest-home-layout/guest-home-layout.component';
 import { MainDashboardComponent } from './dashboard/main-dashboard/main-dashboard.component';
 import { AdminNavbarComponent } from './main/admin-navbar/admin-navbar.component';
 import { NavbarLeftComponent } from './main/admin-navbar/navbar-left/navbar-left.component';
@@ -51,6 +52,7 @@ import { TabBarComponent } from './main/tab-bar/tab-bar.component';
     RegisterComponent,
     AdminLayoutComponent,
     GuestLayoutComponent,
+    GuestHomeLayoutComponent,
     MainDashboardComponent,
     AdminNavbarComponent,
     NavbarLeftComponent,

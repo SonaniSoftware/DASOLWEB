@@ -40,7 +40,7 @@ export interface BillingDocumentRow {
   PackingAmount: number | null;
   NetAmount: number | null;
   RoundOff: number | null;
-  PaymentAmount: number | null;
+  BillingAmount: number | null;
   PaymentTerm: string | null;
   PaymentStatus: string | null;
   BillingAddress: string | null;

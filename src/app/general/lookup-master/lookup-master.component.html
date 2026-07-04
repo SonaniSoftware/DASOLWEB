@@ -3,7 +3,16 @@
     <div class="form-name">
       <p>Lookup Master</p>
     </div>
-    <div class="form-head">
+    <div class="form-head d-flex align-items-center justify-content-between gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <label class="form-label mb-0">Type</label>
+        <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="filterType" (ngModelChange)="load()">
+          <option value="">All types</option>
+          @for (t of allTypes; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      </div>
       <button class="btn btn-primary" (click)="add()"><span class="material-icons">add</span> New Lookup</button>
     </div>
   </div>
@@ -15,15 +24,34 @@
         <div class="row g-2">
           <div class="col-md-3">
             <label class="form-label">Type *</label>
-            <input class="form-control" [(ngModel)]="model.lookupType" maxlength="50" [disabled]="!!editKey" placeholder="e.g. Gender" />
+            @if (editKey || !newType) {
+              <select class="form-select" [(ngModel)]="model.lookupType" [disabled]="!!editKey" (ngModelChange)="onTypeChange($event)">
+                <option value="" disabled>Select type…</option>
+                @for (t of lookupTypes; track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+                <option value="__NEW__">➕ New type…</option>
+              </select>
+            } @else {
+              <div class="input-group">
+                <input class="form-control" [(ngModel)]="model.lookupType" maxlength="50" placeholder="Enter new type" />
+                <button class="btn btn-outline-secondary" type="button" (click)="newType = false; model.lookupType = ''" title="Back to list">
+                  <span class="material-icons">list</span>
+                </button>
+              </div>
+            }
           </div>
           <div class="col-md-2">
             <label class="form-label">Code</label>
             <input class="form-control" [(ngModel)]="model.lookupCode" maxlength="50" placeholder="e.g. M" />
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label class="form-label">Name *</label>
             <input class="form-control" [(ngModel)]="model.lookupName" maxlength="200" placeholder="e.g. Male" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Remarks</label>
+            <input class="form-control" [(ngModel)]="model.remarks" maxlength="500" placeholder="Optional notes" />
           </div>
           <div class="col-md-1 d-flex align-items-end">
             <div class="form-check">

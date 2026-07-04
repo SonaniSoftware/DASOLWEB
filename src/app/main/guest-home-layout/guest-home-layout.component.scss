@@ -1,0 +1,64 @@
+/* Simple guest header bar. */
+.guest-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 20px;
+  background: var(--bs-body-bg);
+  border-bottom: 1px solid var(--bs-border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  .guest-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--bs-emphasis-color);
+
+    .material-icons { color: var(--app-primary); }
+    .guest-brand-name { font-size: 18px; letter-spacing: 0.02em; }
+  }
+
+  .guest-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .guest-user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bs-body-color);
+    }
+
+    .btn .material-icons { font-size: 18px; line-height: 1; vertical-align: middle; }
+  }
+}
+
+/* Guest home: content sits under the guest header. */
+.guest-container {
+  padding: 24px;
+  min-height: calc(100vh - 56px);
+}
+
+/* Blank landing — centre the Apply button. */
+.guest-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 56px - 48px);
+
+  .btn .material-icons {
+    font-size: 20px;
+    line-height: 1;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+}
+
+.guest-card {
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid rgba(var(--app-primary-rgb, 22, 119, 255), 0.45);
+  border-radius: 12px;
+}

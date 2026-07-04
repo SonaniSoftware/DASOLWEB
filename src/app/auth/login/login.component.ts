@@ -67,6 +67,11 @@ export class LoginComponent {
     this.loading = true;
     this.auth.login({ email, password }).subscribe({
       next: () => {
+        // Guests always land on the guest home; admin users honour returnUrl.
+        if (this.auth.isGuestUser()) {
+          this.router.navigateByUrl('/guest');
+          return;
+        }
         const returnUrl =
           this.route.snapshot.queryParamMap.get('returnUrl') ?? '/dashboard/default';
         this.router.navigateByUrl(returnUrl);

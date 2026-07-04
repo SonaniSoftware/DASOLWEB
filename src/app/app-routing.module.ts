@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './main/admin-layout/admin-layout.component';
 import { GuestLayoutComponent } from './main/guest-layout/guest-layout.component';
+import { GuestHomeLayoutComponent } from './main/guest-home-layout/guest-home-layout.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { MainDashboardComponent } from './dashboard/main-dashboard/main-dashboard.component';
@@ -36,6 +37,13 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
     ],
+  },
+
+  // Guest home — logged-in users with no admin group (GroupID 0/1/null).
+  {
+    path: 'guest',
+    component: GuestHomeLayoutComponent,
+    canActivate: [authGuard],
   },
 
   // Protected (main) area — only reachable after login.

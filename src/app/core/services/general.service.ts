@@ -9,6 +9,7 @@ export interface LookupRow {
   LookupID: number;
   LookupCode: string | null;
   LookupName: string;
+  Remarks: string | null;
   ISActive: boolean;
 }
 
@@ -37,8 +38,9 @@ export class GeneralService {
   }
 
   // Lookup Master
-  listLookups() {
-    return this.get<LookupRow[]>('/lookups');
+  /** List lookups; optional server-side filter by LookupType (GEN_LookupMaster_GetData @LookupType). */
+  listLookups(type?: string) {
+    return this.get<LookupRow[]>(type ? `/lookups?type=${encodeURIComponent(type)}` : '/lookups');
   }
   getLookup(type: string, id: number) {
     return this.get<LookupRow>(`/lookups/${encodeURIComponent(type)}/${id}`);

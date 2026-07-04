@@ -12,9 +12,11 @@ export const gridTheme = themeMaterial.withParams({
   foregroundColor: 'var(--bs-body-color)',
   headerBackgroundColor: 'var(--bs-tertiary-bg)',
   headerTextColor: 'var(--bs-emphasis-color)',
-  rowBorder: { width: 1, color: 'var(--bs-border-color)' },          // horizontal lines between rows
-  columnBorder: { width: 1, color: 'var(--bs-border-color)' },       // vertical lines between columns
-  headerColumnBorder: { width: 1, color: 'var(--bs-border-color)' }, // vertical lines in the header
+  // Darker grid lines: mix the theme border colour toward the body text colour
+  // so cell borders read clearly in both light and dark themes.
+  rowBorder: { width: 1, color: 'color-mix(in srgb, var(--bs-border-color), var(--bs-body-color) 35%)' },          // horizontal lines between rows
+  columnBorder: { width: 1, color: 'color-mix(in srgb, var(--bs-border-color), var(--bs-body-color) 35%)' },       // vertical lines between columns
+  headerColumnBorder: { width: 1, color: 'color-mix(in srgb, var(--bs-border-color), var(--bs-body-color) 35%)' }, // vertical lines in the header
 });
 
 /** Active/Inactive badge HTML for AG Grid cellRenderer. */

@@ -20,7 +20,13 @@ export class LookupMasterComponent implements OnInit {
   showForm = false;
   /** Composite key of the row being edited; null when adding. */
   editKey: { type: string; id: number } | null = null;
-  model = { lookupType: '', lookupCode: '', lookupName: '', isActive: true };
+  model = { lookupType: '', lookupCode: '', lookupName: '', remarks: '', isActive: true };
+  /** True when the user picked "New type…" so the Type field becomes free text. */
+  newType = false;
+  /** Grid filter: show only this LookupType ('' = all). Sent to GEN_LookupMaster_GetData. */
+  filterType = '';
+  /** Master list of every LookupType seen, for the filter + Type dropdowns (never shrinks). */
+  allTypes: string[] = [];
 
   // AG Grid
   readonly theme = gridTheme;
@@ -31,9 +37,15 @@ export class LookupMasterComponent implements OnInit {
     { headerName: 'Type', field: 'LookupType', maxWidth: 220 },
     { headerName: 'Code', field: 'LookupCode', maxWidth: 160 },
     { headerName: 'Name', field: 'LookupName' },
+    { headerName: 'Remarks', field: 'Remarks' },
     { headerName: 'Status', field: 'ISActive', maxWidth: 140, cellRenderer: (p: ICellRendererParams) => statusBadge(p.value) },
     { headerName: 'Actions', cellRenderer: GridActionsComponent, sortable: false, filter: false, maxWidth: 130, flex: 0 },
   ];
+
+  /** LookupType values for the "New Lookup" Type dropdown (full master list). */
+  get lookupTypes(): string[] {
+    return this.allTypes;
+  }
 
   ngOnInit(): void {
     this.load();
@@ -41,21 +53,36 @@ export class LookupMasterComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.gen.listLookups().subscribe({
-      next: (r) => { this.rows = r; this.loading = false; },
+    this.gen.listLookups(this.filterType || undefined).subscribe({
+      next: (r) => {
+        this.rows = r;
+        // Grow the master type list (never shrink) so filtering keeps every option.
+        this.allTypes = [...new Set([...this.allTypes, ...r.map((x) => x.LookupType)])].sort((a, b) => a.localeCompare(b));
+        this.loading = false;
+      },
       error: () => (this.loading = false),
     });
   }
 
   add(): void {
     this.editKey = null;
-    this.model = { lookupType: '', lookupCode: '', lookupName: '', isActive: true };
+    this.newType = false;
+    this.model = { lookupType: '', lookupCode: '', lookupName: '', remarks: '', isActive: true };
     this.showForm = true;
+  }
+
+  /** Type <select> change: the "New type…" sentinel switches to a text input. */
+  onTypeChange(value: string): void {
+    if (value === '__NEW__') {
+      this.newType = true;
+      this.model.lookupType = '';
+    }
   }
 
   edit(row: LookupRow): void {
     this.editKey = { type: row.LookupType, id: row.LookupID };
     // Load the latest record by id (GEN_LookupMaster_DataById); fall back to the grid row.
+    this.newType = false;
     this.gen.getLookup(row.LookupType, row.LookupID).subscribe({
       next: (r) => { this.fillForm(r ?? row); },
       error: () => { this.fillForm(row); },
@@ -67,6 +94,7 @@ export class LookupMasterComponent implements OnInit {
       lookupType: row.LookupType,
       lookupCode: row.LookupCode ?? '',
       lookupName: row.LookupName,
+      remarks: row.Remarks ?? '',
       isActive: !!row.ISActive,
     };
     this.showForm = true;

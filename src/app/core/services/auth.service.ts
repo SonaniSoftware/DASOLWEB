@@ -15,6 +15,8 @@ export interface User {
   companyId: number;
   companyName: string;
   employeeCode: string;
+  groupId: number | null;
+  groupName: string | null;
 }
 
 export interface LoginCredentials {
@@ -148,6 +150,17 @@ export class AuthService {
 
   getUser(): User | null {
     return this.currentUserSubject.value;
+  }
+
+  /** Guest = no admin group (GroupID null/0/1). Everyone else is an admin user. */
+  isGuestUser(user: User | null = this.getUser()): boolean {
+    const g = user?.groupId;
+    return g == null || g === 0 || g === 1;
+  }
+
+  /** Landing route after login, based on the user's group. */
+  homeUrl(): string {
+    return this.isGuestUser() ? '/guest' : '/dashboard/default';
   }
 
   isAuthenticated(): boolean {

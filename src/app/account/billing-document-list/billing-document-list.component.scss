@@ -38,6 +38,16 @@
 /* Grid height. */
 .dev-grid {
   height: calc(100vh - 210px - 20px);
+
+  /* Fill each row with the same colour as its ProcessStatus chip.
+     Both the chips (below) and these rows reference the same theme variables
+     (--bs-success / --bs-info / --bs-warning), so changing the theme recolours
+     the chips and their matching rows together. color-mix keeps the fill light
+     enough for the row text to stay readable. ag-grid renders rows outside this
+     component's template, so ::ng-deep pierces Angular view encapsulation. */
+  ::ng-deep .ag-row.row-complete { background-color: color-mix(in srgb, var(--bs-success) 22%, var(--bs-body-bg)); }
+  ::ng-deep .ag-row.row-confirm  { background-color: color-mix(in srgb, var(--bs-info, #0dcaf0) 22%, var(--bs-body-bg)); }
+  ::ng-deep .ag-row.row-payment  { background-color: color-mix(in srgb, var(--bs-warning) 22%, var(--bs-body-bg)); }
 }
 
 /* Body summary chips: Total / Complete / Verify / Payment */

@@ -39,6 +39,12 @@ export class BillingDocumentListComponent implements OnInit {
 
   readonly theme = gridTheme;
   readonly context = { componentParent: this };
+  /** Tint each row with the same colour as its ProcessStatus summary chip. */
+  readonly rowClassRules: Record<string, (p: { data?: BillingDocumentRow }) => boolean> = {
+    'row-complete': (p) => p.data?.ProcessStatus === 'COMPLETE',
+    'row-confirm': (p) => p.data?.ProcessStatus === 'CONFIRM',
+    'row-payment': (p) => p.data?.ProcessStatus === 'PAYMENT',
+  };
   // Fixed widths per column (below); no flex. Header text wraps onto 2 lines.
   readonly defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, wrapHeaderText: true };
   /** Header row height — taller so wrapped headers fit two lines. */
@@ -79,7 +85,7 @@ export class BillingDocumentListComponent implements OnInit {
     { headerName: 'Packing Amt', field: 'PackingAmount', width: 100, valueFormatter: this.numFmt },
     { headerName: 'Net Amt', field: 'NetAmount', width: 100, valueFormatter: this.numFmt },
     { headerName: 'Round Off', field: 'RoundOff', width: 100, valueFormatter: this.numFmt },
-    { headerName: 'Payment Amt', field: 'PaymentAmount', width: 100, valueFormatter: this.numFmt },
+    { headerName: 'Billing Amt', field: 'BillingAmount', width: 100, valueFormatter: this.numFmt },
     { headerName: 'Pay Term', field: 'PaymentTerm', width: 50 },
     { headerName: 'Pay Status', field: 'PaymentStatus', hide: true },
     { headerName: 'Billing Address', field: 'BillingAddress', hide: true },
@@ -184,7 +190,13 @@ export class BillingDocumentListComponent implements OnInit {
   }
 
   private dateFmt(p: ValueFormatterParams): string {
-    return p.value ? new Date(p.value).toLocaleDateString() : '';
+    if (!p.value) return '';
+    const d = new Date(p.value);
+    if (isNaN(d.getTime())) return '';
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
   }
   private numFmt(p: ValueFormatterParams): string {
     return p.value != null ? Number(p.value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';

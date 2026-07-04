@@ -1,0 +1,71 @@
+<!-- Simple guest header: brand on the left, user + logout on the right -->
+<header class="guest-header">
+  <div class="guest-brand">
+    <span class="material-icons">apartment</span>
+    <span class="guest-brand-name">Sonani</span>
+  </div>
+  <div class="guest-user">
+    <span class="guest-user-name">{{ displayName }}</span>
+    <button class="btn btn-outline-secondary btn-sm" type="button" (click)="logout()" title="Sign out">
+      <span class="material-icons">logout</span>
+    </button>
+  </div>
+</header>
+
+<div class="guest-container">
+  @if (!showForm) {
+    <!-- Blank landing with a single Apply action -->
+    <div class="guest-welcome">
+      <button class="btn btn-primary btn-lg" type="button" (click)="openApply()">
+        <span class="material-icons">how_to_reg</span> Apply
+      </button>
+    </div>
+  } @else {
+    <!-- HRM_EmployeeRegister application form -->
+    <div class="card guest-card">
+      <div class="card-body">
+        <h6 class="mb-3">Apply — Employee Registration</h6>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label">User Name *</label>
+            <input class="form-control" [(ngModel)]="model.userName" maxlength="100" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">First Name *</label>
+            <input class="form-control" [(ngModel)]="model.firstName" maxlength="100" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Middle Name</label>
+            <input class="form-control" [(ngModel)]="model.middleName" maxlength="100" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" [(ngModel)]="model.lastName" maxlength="100" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Aadhar No *</label>
+            <input class="form-control" [(ngModel)]="model.aadharNo" maxlength="20" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Email *</label>
+            <input class="form-control" type="email" [(ngModel)]="model.email" maxlength="255" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Mobile *</label>
+            <input class="form-control" [(ngModel)]="model.mobile" maxlength="20" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Password *</label>
+            <input class="form-control" type="password" [(ngModel)]="model.password" maxlength="255" />
+          </div>
+          <div class="col-12 d-flex gap-2 mt-2">
+            <button class="btn btn-primary" (click)="submit()" [disabled]="saving">
+              {{ saving ? 'Submitting…' : 'Submit' }}
+            </button>
+            <button class="btn btn-light" (click)="cancel()" [disabled]="saving">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
