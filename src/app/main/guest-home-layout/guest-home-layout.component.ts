@@ -41,12 +41,45 @@ export class GuestHomeLayoutComponent {
   }
 
   saving = false;
+  loading = false;
   model = blankEmployee();
 
-  /** "Apply" button — reveal the registration form. */
+  /** The guest's own RegisterID (UserID = RegisterID in this schema). */
+  private get registerId(): number {
+    return this.auth.getUser()?.userId ?? 0;
+  }
+
+  /**
+   * "Apply" button — reveal the registration form prefilled from
+   * HRM_EmployeeRegister_DataByID for the logged-in guest.
+   */
   openApply(): void {
     this.model = blankEmployee();
     this.showForm = true;
+    if (!this.registerId) return;
+    this.loading = true;
+    this.api.getEmployee(this.registerId).subscribe({
+      next: (row) => {
+        this.loading = false;
+        if (!row) return;
+        this.model = {
+          userName: row.UserName ?? '',
+          firstName: row.FirstName ?? '',
+          middleName: row.MiddleName ?? '',
+          lastName: row.LastName ?? '',
+          aadharNo: row.AadharNo ?? '',
+          email: row.Email ?? '',
+          mobile: row.Mobile ?? '',
+          password: '', // never editable here — the account password stays as-is
+          isVerify: !!row.ISVerify,
+          isActive: row.ISActive == null ? true : !!row.ISActive,
+        };
+      },
+      error: (e) => {
+        this.loading = false;
+        this.notify.error(e?.error?.message ?? 'Could not load your details.');
+      },
+    });
   }
 
   cancel(): void {
@@ -54,20 +87,18 @@ export class GuestHomeLayoutComponent {
   }
 
   submit(): void {
-    if (!this.model.userName || !this.model.firstName || !this.model.email || !this.model.mobile || !this.model.aadharNo) {
-      this.notify.warning('User name, first name, email, mobile and Aadhar are required.');
-      return;
-    }
-    if (!this.model.password) {
-      this.notify.warning('Password is required.');
+    if (!this.model.firstName || !this.model.email || !this.model.mobile || !this.model.aadharNo) {
+      this.notify.warning('First name, email, mobile and Aadhar are required.');
       return;
     }
     this.saving = true;
-    this.api.createEmployee(this.model).subscribe({
-      next: () => {
+    // Insert-only apply for the guest's own RegisterID; the server rejects a
+    // second application with an "already registered" message.
+    this.api.applyEmployee(this.model).subscribe({
+      next: (r) => {
         this.saving = false;
         this.showForm = false;
-        this.notify.success('Application submitted. We will review it shortly.');
+        this.notify.success(r?.message ?? 'Application submitted. We will review it shortly.');
       },
       error: (e) => {
         this.saving = false;

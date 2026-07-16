@@ -15,9 +15,18 @@
 
         <div class="row g-2">
           <div class="col-md-3">
-            <label class="form-label">User Name *</label>
-            <input class="form-control" [(ngModel)]="model.userName" maxlength="100" [disabled]="!!editId" />
+            <label class="form-label">Aadhar No *</label>
+            <input class="form-control" [(ngModel)]="model.aadharNo" maxlength="20" />
           </div>
+          <div class="col-md-4">
+            <label class="form-label">Email *</label>
+            <input class="form-control" type="email" [(ngModel)]="model.email" maxlength="255" />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Mobile *</label>
+            <input class="form-control" [(ngModel)]="model.mobile" maxlength="20" />
+          </div>
+
           <div class="col-md-3">
             <label class="form-label">First Name *</label>
             <input class="form-control" [(ngModel)]="model.firstName" maxlength="100" />
@@ -30,18 +39,9 @@
             <label class="form-label">Last Name</label>
             <input class="form-control" [(ngModel)]="model.lastName" maxlength="100" />
           </div>
-
           <div class="col-md-3">
-            <label class="form-label">Aadhar No *</label>
-            <input class="form-control" [(ngModel)]="model.aadharNo" maxlength="20" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Email *</label>
-            <input class="form-control" type="email" [(ngModel)]="model.email" maxlength="255" />
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Mobile *</label>
-            <input class="form-control" [(ngModel)]="model.mobile" maxlength="20" />
+            <label class="form-label">User Name *</label>
+            <input class="form-control" [(ngModel)]="model.userName" maxlength="100" [disabled]="!!editId" />
           </div>
           <div class="col-md-2">
             <label class="form-label">{{ editId ? 'Reset Password' : 'Password *' }}</label>

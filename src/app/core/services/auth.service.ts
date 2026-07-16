@@ -1,7 +1,6 @@
 // src/app/core/services/auth.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -60,7 +59,6 @@ export interface ApiResponse<T> {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private router = inject(Router);
   private deviceInfo = inject(DeviceInfoService);
 
   private readonly apiUrl = `${environment.apiUrl}/auth`;
@@ -124,20 +122,21 @@ export class AuthService {
 
   /**
    * Clears the local session immediately (so logout always works, even offline),
-   * then notifies the server best-effort and routes to the login page.
+   * notifies the server best-effort, then does a full page load of the login
+   * page so no in-memory state from the previous user survives.
    */
   logout(): void {
     this.clearSession();
     this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
-      next: () => this.router.navigate(['/auth/login']),
-      error: () => this.router.navigate(['/auth/login']),
+      next: () => window.location.assign('/auth/login'),
+      error: () => window.location.assign('/auth/login'),
     });
   }
 
   /** Local-only teardown used when a token refresh fails. No server round-trip. */
   sessionExpired(): void {
     this.clearSession();
-    this.router.navigate(['/auth/login']);
+    window.location.assign('/auth/login');
   }
 
   getToken(): string | null {
@@ -184,6 +183,8 @@ export class AuthService {
     localStorage.removeItem(environment.refreshTokenKey);
     localStorage.removeItem(environment.sessionKey);
     localStorage.removeItem(environment.userKey);
+    // Drop the previous user's login-time device snapshot too.
+    this.deviceInfo.clearLoginSnapshot();
     this.currentUserSubject.next(null);
   }
 

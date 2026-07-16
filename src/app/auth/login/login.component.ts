@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -12,7 +12,6 @@ import { NotificationService } from '../../core/services/notification.service';
 })
 export class LoginComponent {
   private auth = inject(AuthService);
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
   private notify = inject(NotificationService);
 
@@ -68,13 +67,11 @@ export class LoginComponent {
     this.auth.login({ email, password }).subscribe({
       next: () => {
         // Guests always land on the guest home; admin users honour returnUrl.
-        if (this.auth.isGuestUser()) {
-          this.router.navigateByUrl('/guest');
-          return;
-        }
-        const returnUrl =
-          this.route.snapshot.queryParamMap.get('returnUrl') ?? '/dashboard/default';
-        this.router.navigateByUrl(returnUrl);
+        // Full page load so the app starts fresh for the new session.
+        const target = this.auth.isGuestUser()
+          ? '/guest'
+          : this.route.snapshot.queryParamMap.get('returnUrl') ?? '/dashboard/default';
+        window.location.assign(target);
       },
       error: (err) => {
         this.loading = false;

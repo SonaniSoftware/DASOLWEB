@@ -27,8 +27,16 @@
         <h6 class="mb-3">Apply — Employee Registration</h6>
         <div class="row g-2">
           <div class="col-md-4">
-            <label class="form-label">User Name *</label>
-            <input class="form-control" [(ngModel)]="model.userName" maxlength="100" />
+            <label class="form-label">Aadhar No *</label>
+            <input class="form-control" [(ngModel)]="model.aadharNo" maxlength="20" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Email *</label>
+            <input class="form-control" type="email" [(ngModel)]="model.email" maxlength="255" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Mobile *</label>
+            <input class="form-control" [(ngModel)]="model.mobile" maxlength="20" />
           </div>
           <div class="col-md-4">
             <label class="form-label">First Name *</label>
@@ -43,24 +51,17 @@
             <input class="form-control" [(ngModel)]="model.lastName" maxlength="100" />
           </div>
           <div class="col-md-4">
-            <label class="form-label">Aadhar No *</label>
-            <input class="form-control" [(ngModel)]="model.aadharNo" maxlength="20" />
+            <label class="form-label">User Name</label>
+            <input class="form-control" [(ngModel)]="model.userName" maxlength="100" disabled />
           </div>
           <div class="col-md-4">
-            <label class="form-label">Email *</label>
-            <input class="form-control" type="email" [(ngModel)]="model.email" maxlength="255" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Mobile *</label>
-            <input class="form-control" [(ngModel)]="model.mobile" maxlength="20" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Password *</label>
-            <input class="form-control" type="password" [(ngModel)]="model.password" maxlength="255" />
+            <label class="form-label">Password</label>
+            <input class="form-control" type="password" [(ngModel)]="model.password" maxlength="255"
+                   placeholder="Uses your account password" disabled />
           </div>
           <div class="col-12 d-flex gap-2 mt-2">
-            <button class="btn btn-primary" (click)="submit()" [disabled]="saving">
-              {{ saving ? 'Submitting…' : 'Submit' }}
+            <button class="btn btn-primary" (click)="submit()" [disabled]="saving || loading">
+              {{ saving ? 'Submitting…' : loading ? 'Loading…' : 'Submit' }}
             </button>
             <button class="btn btn-light" (click)="cancel()" [disabled]="saving">Cancel</button>
           </div>

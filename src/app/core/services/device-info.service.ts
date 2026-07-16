@@ -55,25 +55,39 @@ export class DeviceInfoService {
 
   /** Capture the login-time device + IP snapshot and persist it. Call after a successful login. */
   captureLogin(): void {
-    this.getIp().subscribe((ip) => {
-      const i = this.info;
-      const snap: DeviceSnapshot = {
-        ip,
-        at: new Date().toISOString(),
-        browser: i.browser,
-        os: i.os,
-        device: i.device,
-        platform: i.platform,
-        deviceId: i.deviceId,
-        screen: i.screen,
-        language: i.language,
-      };
-      try {
-        localStorage.setItem(LOGIN_DEVICE_KEY, JSON.stringify(snap));
-      } catch {
-        /* storage unavailable — ignore */
-      }
-    });
+    // Persist the device part synchronously — the app may do a full page load
+    // right after login, which would abort the async IP lookup.
+    const i = this.info;
+    const snap: DeviceSnapshot = {
+      ip: '—',
+      at: new Date().toISOString(),
+      browser: i.browser,
+      os: i.os,
+      device: i.device,
+      platform: i.platform,
+      deviceId: i.deviceId,
+      screen: i.screen,
+      language: i.language,
+    };
+    this.store(snap);
+    this.getIp().subscribe((ip) => this.store({ ...snap, ip }));
+  }
+
+  private store(snap: DeviceSnapshot): void {
+    try {
+      localStorage.setItem(LOGIN_DEVICE_KEY, JSON.stringify(snap));
+    } catch {
+      /* storage unavailable — ignore */
+    }
+  }
+
+  /** Remove the login-time snapshot (used on logout). */
+  clearLoginSnapshot(): void {
+    try {
+      localStorage.removeItem(LOGIN_DEVICE_KEY);
+    } catch {
+      /* storage unavailable — ignore */
+    }
   }
 
   /** The stored login snapshot (or null if none captured yet). */
